@@ -43,6 +43,58 @@ def split(text: str, sep = ' ') -> list:
         i += 1
     return L + [aux]
 
+def unir(items: list, sep: str) -> str:
+    '''
+    Combina los elementos de una lista en una cadena usando el separador dado.
+
+    Parameters
+    ----------
+    items : list
+        Lista de elementos a unir.
+    sep : str
+        Separador para unir los elementos.
+
+    Returns
+    -------
+    str
+        Cadena resultante después de unir los elementos con el separador.
+    '''
+
+    resultado = str(items[0])
+    for item in items[1:]:
+        resultado += str(sep) + str(item)
+    return resultado
+
+def is_digit(caracter: str) -> bool:
+    '''
+    Verifica si el carácter dado es un dígito.
+
+    Parameters
+    ----------
+    caracter : str
+        Carácter a verificar.
+
+    Returns
+    -------
+    bool
+        True si es un dígito, False de lo contrario.
+
+    '''
+    numeros =  [
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
+        '6',
+        '7',
+        '8',
+        '9',
+        '0',
+    ]
+
+    return caracter in numeros
+
 def limpiar_pantalla():
     '''
     Funcion que limpia la pantalla
@@ -55,7 +107,7 @@ def limpiar_pantalla():
     import os
     os.system('cls')
     
-def cargar_info(file_path):
+def cargar_info(file_path: str) -> dict:
     '''
     Sinopsis
     --------
@@ -146,7 +198,7 @@ def cargar_info(file_path):
             elif line.startswith(('PM10', 'PM25', 'Temperatura', 'Humedad')):
                 # Rangos y nombres de registros
                 info['registros'].append(line)
-            elif line[0].isdigit():
+            elif is_digit(line[0]):
                 # Verificar formato antes de interpretar como información de centros
                 parts = split(line, ',')
                 if len(parts) == 3:
@@ -172,7 +224,7 @@ def cargar_info(file_path):
     return info
 
 
-def guardar_info(file_path, info):
+def guardar_info(file_path: str, info: dict) -> None:
     '''
     Función que actualiza los datos de un archivo txt
 
@@ -192,13 +244,12 @@ def guardar_info(file_path, info):
         for usuario in info['usuarios']:
             file.write(f"<{usuario['id']};{usuario['nombre']};{usuario['clave']};{usuario['rol']}>\n")
 
-        file.write(':' + ','.join(info['ciudades']) + '\n')
+        file.write(':'+ unir(info['ciudades'],',') +'\n')
 
         for centro_id, centro_info in info['centros'].items():
             file.write(f"{centro_id},{centro_info['nombre']},{centro_info['ciudad']}\n")
 
-        for registro in info['registros']:
-            if isinstance(registro, str):
-                file.write(registro + '\n')
-            else:
-                file.write(f"{registro['fecha']};{registro['centro_id']};{{{','.join(registro['datos'])}}}\n")
+        file.write(info['registros'][0]+'\n')
+
+        for registro in info['registros'][1:]:
+            file.write(f"{registro['fecha']};{registro['centro_id']};{{{unir(registro['datos'],',')}}}\n")

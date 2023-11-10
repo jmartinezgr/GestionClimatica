@@ -11,6 +11,10 @@ pprint(info)
 info['ciudades'].append('Marinilla')
 
 # Aquí puedes agregar nuevos registros
-info['registros'].append('2023-02-01 00:00:00;1;{1.0,2.0,3.0,4.0}')
+info['registros'].append({
+                'centro_id': '1',
+                'datos': [1.0,2.0,3.0,4.0],
+                'fecha': '2023-02-01 00:00:00'
+            })
 
 guardar_info(file_path, info)
