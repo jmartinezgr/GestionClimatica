@@ -2,7 +2,7 @@ from utilidades_documentos import *
 from pprint import pprint
 
 # Ejemplo de uso
-file_path = 'registros_.txt'
+file_path = 'registros.txt'
 info = cargar_info(file_path)
 
 pprint(info)
