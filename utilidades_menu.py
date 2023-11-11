@@ -108,6 +108,7 @@ def menu_operador(usr:str) -> None:
         if op != '1':
             if op == '2':
                 menu_estaciones()
+                limpiar_pantalla()
             elif op == '3':
                 menu_manipulacion_usuarios(usr)
             elif op == '4':
@@ -146,7 +147,8 @@ def menu_estaciones():
                 crear_estacion()
                 limpiar_pantalla()
             elif op == '3':
-                menu_manipulacion_usuarios()
+                actualizar_estacion()
+                limpiar_pantalla()
             elif op == '4':
                 depurar_registro()
             else:

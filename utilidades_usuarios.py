@@ -117,6 +117,30 @@ def elegir_municipio() -> str:
 
     return info['ciudades'][int(menu(opciones))-1]
 
+def elegir_estacion() -> str:
+
+    info = cargar_info(bd_file)
+
+    centros = info['centros']
+    opciones = {str(centro_id): f'Nombre: {centro["nombre"]}  Ciudad: {centro["ciudad"]}' for centro_id, centro in centros.items()}
+    
+    print('Se listaran los centros con su identificados por su numero de id, elije dicho numero para indicar cual quieres modificar')
+    print()
+    return menu(opciones)
+
+def elegir_nombre_estacion(nombre_centro:str) -> str:
+
+    valor = True
+
+    while valor:
+        nombre = input(f'Ingresa el nuevo nombre o de enter para mantener el que ya esta ({nombre_centro}):')
+        if not is_space(nombre) and not nombre == '':
+            valor = validar_nombre(nombre)
+            if valor:
+                return nombre
+        else:
+            return nombre_centro
+
 def crear_estacion():
 
     limpiar_pantalla()
@@ -143,6 +167,34 @@ def crear_estacion():
     guardar_info(bd_file, info)
     limpiar_pantalla()
     print(f"Centro agregado con éxito. Clave: {nueva_clave}")
+    print()
+    opciones = {'1':'Volver al menu anterior'}
+
+    menu(opciones)
+
+def actualizar_estacion():
+    limpiar_pantalla()
+    print('Actualicemos una estacion')
+    print()
+    
+    id_estacion = elegir_estacion()
+
+    info = cargar_info(bd_file)
+
+    nuevo_nombre = elegir_nombre_estacion(info['centros'][id_estacion]['nombre'])
+    print(f'Elige la nueva ciudad, o ingresa el numero de la ciudad en la que esta actualmente ({info['centros'][id_estacion]['ciudad']}) para mantener el estado actual: ')
+    print()
+    nueva_ciudad = elegir_municipio()
+
+    info['centros'][id_estacion] = {
+        'ciudad': nueva_ciudad,
+        'nombre': nuevo_nombre
+    }
+
+    guardar_info(bd_file,info)
+
+    limpiar_pantalla()
+    print(f"Centro modificado con éxito. Clave: {id_estacion} Nombre: {nuevo_nombre} Ciudad: {nueva_ciudad}")
     print()
     opciones = {'1':'Volver al menu anterior'}
 

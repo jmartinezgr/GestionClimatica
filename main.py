@@ -21,7 +21,6 @@ while op != '3':
             usr = login()
             if usr is not None:
                 limpiar_pantalla()
-                print('Log')
                 if usr[1] == 'Operador':
                     menu_operador(usr[0])
                 else:
