@@ -9,14 +9,15 @@ from utilidades_menu import *
 from utilidades_documentos import *
 from utilidades_usuarios import *
 
-op = -1
+op = '-1'
 
-while op != 3:
+while op != '3':
     op = menu_principal()
-    if op != 3:     
+    if op != '3':     
         if op == '2':
             menu_invitado()
         elif op == '1':
+            print()
             usr = login()
             if usr is not None:
                 limpiar_pantalla()
@@ -29,4 +30,3 @@ while op != 3:
                 print('Error, has ingresado una opcion no valida, intentalo de nuevo')
     else:
         print('Gracias por usar el sistema! Nos vemos luego')
-    

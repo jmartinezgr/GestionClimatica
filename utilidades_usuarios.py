@@ -4,10 +4,34 @@ Created on Wed Apr 26 14:14:59 2023
 
 @author: gita2
 """
-
+# Definimos la constante de acceso a los datos
 bd_file = 'registros.txt'
 
 from utilidades_documentos import *
+
+def menu(opciones: dict) -> str:
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
+
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''
+    while True:
+        for k,v in opciones.items():
+            print(k+') '+v)
+        op = input("Elije la opcion que deseas: ")
+        if op in opciones.keys():
+            return op
+        else:
+            print("\nOpción no válida, intenta nuevamente")
 
 def ingresar_documento():
     documento = input('ingrese el numero de documento: ')
@@ -84,3 +108,42 @@ def login():
         print(f'Error, los datos no corresponden a un usuario registrado, te quedan {3-i-1} intentos')  
     
     return None
+
+def elegir_municipio() -> str:
+    
+    info = cargar_info(bd_file)
+
+    opciones = {str(i+1):info['ciudades'][i] for i in range(len(info['ciudades']))}
+
+    return info['ciudades'][int(menu(opciones))-1]
+
+def crear_estacion():
+
+    limpiar_pantalla()
+    print('Creemos una nueva estacion!')
+    
+    nombre = ingresar_nombre()
+    ciudad = elegir_municipio()
+
+    info = cargar_info(bd_file)
+
+    # Encontrar la mayor clave existente
+    mayores_claves = [int(clave) for clave in info['centros']]
+    nueva_clave = str(mi_max(mayores_claves) + 1) if mayores_claves else '1'
+
+    centro = {
+        'ciudad': ciudad,
+        'nombre': nombre
+    }
+
+    # Agregar el nuevo centro al diccionario
+    info['centros'][nueva_clave] = centro
+
+    # Guardar la información actualizada en el archivo
+    guardar_info(bd_file, info)
+    limpiar_pantalla()
+    print(f"Centro agregado con éxito. Clave: {nueva_clave}")
+    print()
+    opciones = {'1':'Volver al menu anterior'}
+
+    menu(opciones)

@@ -1,5 +1,7 @@
 from utilidades_documentos import *
+from utilidades_usuarios import elegir_municipio
 from pprint import pprint
+
 
 # Ejemplo de uso
 file_path = 'registros.txt'
@@ -18,3 +20,6 @@ info['registros'].append({
             })
 
 guardar_info(file_path, info)
+"""
+print(elegir_municipio())
+"""

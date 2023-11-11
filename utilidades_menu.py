@@ -4,7 +4,8 @@ Created on Wed Apr 26 11:47:34 2023
 
 @author: gita2
 """
-# Definimos la constante de acceso a los datos
+from utilidades_documentos import *
+from utilidades_usuarios import *
 
 def menu(opciones: dict) -> str:
     '''
@@ -79,7 +80,7 @@ def menu_administrador(usr:str):
     opciones = {'1':'Menú anterior'}
     menu(opciones)
 
-def menu_operador(usr:str):
+def menu_operador(usr:str) -> None:
     '''
     Función que muestra el menú cuando un usuario se registra
 
@@ -99,17 +100,87 @@ def menu_operador(usr:str):
                 '3':'Gestionar Usuarios',
                 '4':'Depuracion de registros inconsistentes'}
     
-    op = -1
+    op = '-1'
 
-    while op != 1:
+    while op != '1':
+        print('Menu Usuario Operador')
         op = menu(opciones)
-        if op != 1:
+        if op != '1':
             if op == '2':
                 menu_estaciones()
             elif op == '3':
-                menu_usuarios()
+                menu_manipulacion_usuarios(usr)
             elif op == '4':
                 depurar_registro()
             else:
                 print('Error, has ingresado una opcion no valida, intentalo de nuevo')
+    limpiar_pantalla()
 
+def menu_estaciones():
+    '''
+    Función que muestra el menú cuando un usuario se registra
+
+    Parameters
+    ----------
+    usr : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    None.
+
+    '''
+    opciones = {'1':'Menú anterior',
+                '2':'Crear Estacion',
+                '3':'Editar Estacion',
+                '4':'Eliminar estacion'}
+    
+    op = '-1'
+
+    while op != '1':
+        limpiar_pantalla()
+        print(f'Menu estaciones')
+        op = menu(opciones)
+        if op != '1':
+            if op == '2':
+                crear_estacion()
+                limpiar_pantalla()
+            elif op == '3':
+                menu_manipulacion_usuarios()
+            elif op == '4':
+                depurar_registro()
+            else:
+                print('Error, has ingresado una opcion no valida, intentalo de nuevo')
+    limpiar_pantalla()
+
+def menu_manipulacion_usuarios(usr:str):
+    '''
+    Función que muestra el menú cuando un usuario se registra
+
+    Parameters
+    ----------
+    usr : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    None.
+
+    '''
+    pass
+
+def depurar_registro():
+    '''
+    Función que muestra el menú cuando un usuario se registra
+
+    Parameters
+    ----------
+    usr : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    None.
+
+    '''
+    pass

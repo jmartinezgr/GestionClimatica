@@ -7,6 +7,12 @@ Created on Wed Apr 26 09:24:37 2023
 
 from datetime import datetime
 
+"""
+
+    Funciones propias usadas en las demas funciones, implementadas a mano y usadas en los contexto especificos de la solucion.
+
+"""  
+
 def split(text: str, sep = ' ') -> list:
     '''
     Parametros
@@ -97,6 +103,45 @@ def is_digit(caracter: str) -> bool:
 
     return caracter in numeros
 
+def is_alpha(char: str) -> bool:
+    '''
+    Verifica si el carácter dado es una letra (mayúscula o minúscula).
+    
+    Argumentos:
+        char: Carácter a verificar
+    return -> Boolean (True or False) si es una letra o no
+    '''
+    letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    return char in letras
+
+def is_space(char: str) -> bool:
+    '''
+    Verifica si el carácter dado es un espacio.
+    
+    Argumentos:
+        char: Carácter a verificar
+    return -> Boolean (True or False) si es un espacio o no
+    '''
+    return char == ' '
+
+def mi_max(lista) -> int:
+    '''
+    Encuentra el numero mayor de una lista numerica
+    
+    Argumentos:
+        list: Lista a verificar
+    return -> Integer: Retorna el numero maximo o None si la lista estaba vacia
+    '''
+    
+    if not lista:
+        return None
+
+    maximo = lista[0]
+    for elemento in lista:
+        if elemento > maximo:
+            maximo = elemento
+    return maximo
+
 def limpiar_pantalla():
     '''
     Funcion que limpia la pantalla
@@ -108,7 +153,12 @@ def limpiar_pantalla():
     '''
     import os
     os.system('cls')
-    
+
+"""
+
+    Funciones especificas para la lecutra y el guardado en la base de datos de la informacion
+
+"""   
 def cargar_info(file_path: str) -> dict:
     '''
     Sinopsis
@@ -256,26 +306,11 @@ def guardar_info(file_path: str, info: dict) -> None:
         for registro in info['registros'][1:]:
             file.write(f"{registro['fecha']};{registro['centro_id']};{{{unir(registro['datos'],',')}}}\n")
 
-def is_alpha(char: str) -> bool:
-    '''
-    Verifica si el carácter dado es una letra (mayúscula o minúscula).
+"""
     
-    Argumentos:
-        char: Carácter a verificar
-    return -> Boolean (True or False) si es una letra o no
-    '''
-    letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    return char in letras
+    Funciones especificas de validacion de datos ingresados por el usuario
 
-def is_space(char: str) -> bool:
-    '''
-    Verifica si el carácter dado es un espacio.
-    
-    Argumentos:
-        char: Carácter a verificar
-    return -> Boolean (True or False) si es un espacio o no
-    '''
-    return char == ' '
+"""
 
 def validar_nombre(nombre: str) -> bool:
     '''
@@ -320,7 +355,12 @@ def validar_fecha(fecha: str) -> bool:
     except ValueError:
         # Capturar la excepción ValueError que se produce si el formato es incorrecto
         return False
-    
+
+
+"""
+    Funciones especificas para el estilado de salidas de informacion
+
+"""
 def imprimir_tabla(tabla, ancho, encabezado=None):  
     ''' 
     Imprime en pantalla un tabla con los datos pasados, ajustado a los tamaños deseados.
