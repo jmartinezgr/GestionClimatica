@@ -153,7 +153,9 @@ def menu_estaciones():
                 eliminar_estacion()
                 limpiar_pantalla()
             else:
+                limpiar_pantalla()
                 print('Error, has ingresado una opcion no valida, intentalo de nuevo')
+                print()
     limpiar_pantalla()
 
 def menu_manipulacion_usuarios(usr:str):
@@ -186,13 +188,15 @@ def menu_manipulacion_usuarios(usr:str):
                 crear_usuario(usr)
                 limpiar_pantalla()
             elif op == '3':
-                actualizar_estacion()
+                actualizar_usuario(usr)
                 limpiar_pantalla()
             elif op == '4':
                 eliminar_usuario(usr)
                 limpiar_pantalla()
             else:
+                limpiar_pantalla()
                 print('Error, has ingresado una opcion no valida, intentalo de nuevo')
+                print()
     limpiar_pantalla()
 
 def depurar_registro():

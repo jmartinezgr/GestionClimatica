@@ -26,6 +26,8 @@ while op != '3':
                 else:
                     menu_administrador(usr[0])
         else:
-                print('Error, has ingresado una opcion no valida, intentalo de nuevo')
+            limpiar_pantalla()
+            print('Error, has ingresado una opcion no valida, intentalo de nuevo')
+            print()
     else:
         print('Gracias por usar el sistema! Nos vemos luego')

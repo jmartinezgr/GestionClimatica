@@ -249,8 +249,68 @@ def eliminar_estacion():
 
 """
 
+def elegir_usuario_actualizar(usr:str) -> int:
 
-def elegir_usuario_eliminar(usr):
+    info = cargar_info(bd_file)
+
+    usuarios = info['usuarios']
+
+    opciones = {
+        str(i+1): f'Nombre: {usuarios[i]["nombre"]}  Rol: {usuarios[i]["rol"]} Documento: {usuarios[i]["id"]}' 
+        for i in range(len(usuarios)) 
+    }
+
+    print('Se listarán los usuarios con su identificación por su número de ID, elige dicho número para indicar cuál quieres actualizar')
+    print()
+
+    return int(menu(opciones))-1
+
+def elegir_nombre_usuario(nombre:str):
+    
+    print(f'Se te solicitara un nuevo nombre, dale enter si deseas que se mantenga el nombre actual ({nombre})')
+    nombre_nuevo = ingresar_nombre()
+
+    return nombre_nuevo if nombre_nuevo != '' else nombre
+
+def actualizar_usuario(usr:str) -> None:
+
+    limpiar_pantalla()
+
+    indice_usuario = elegir_usuario_actualizar(usr)
+
+    info = cargar_info(bd_file)
+
+    usuario = info['usuarios'][indice_usuario]
+
+    nuevo_nombre = elegir_nombre_usuario(usuario['nombre'])
+
+    opciones = {'1':f'Mantener la contraseña ({usuario['clave']}):',
+                '2':f'Cambiar la contrasña actual'}
+
+    nueva_constraseña = usuario['clave'] if menu(opciones) == '1' else ingresar_clave()
+
+    opciones = {'1':f'Mantener el rol ({usuario['rol']}):',
+                '2':f'Cambiar el rol actual'}
+
+    nuevo_rol = usuario['rol'] if menu(opciones) == '1' else ingresar_rol()
+
+    info['usuarios'][indice_usuario] = {
+        'id':usuario['id'],
+        'nombre':nuevo_nombre,
+        'clave':nueva_constraseña,
+        'rol':nuevo_rol
+    }
+
+    # Guardar la información actualizada en el archivo
+    guardar_info(bd_file, info)
+
+    limpiar_pantalla()
+    print(f"Usuario actualizado con éxito. ID: {usuario['id']} Nombre: {nuevo_nombre}")
+    print()
+    opciones = {'1': 'Volver al menú anterior'}
+    menu(opciones)
+
+def elegir_usuario_eliminar(usr) -> int:
     info = cargar_info(bd_file)
 
     usuarios = info['usuarios']
