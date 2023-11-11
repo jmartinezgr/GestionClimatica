@@ -336,8 +336,10 @@ def validar_documento(documento: str, usuarios: list) -> bool:
         # Verificar que el documento no esté repetido en la lista de usuarios
         for usuario in usuarios:
             if 'id' in usuario and usuario['id'] == documento:
+                print('Este numero de documento ya existe!')
                 return False
         return True
+    print('Recuerden que el documento solo puede estar compuesto por numero, y debe tener 10 cifras')
     return False
 
 def validar_fecha(fecha: str) -> bool:

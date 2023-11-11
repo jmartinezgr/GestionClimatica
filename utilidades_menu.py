@@ -62,7 +62,7 @@ def menu_invitado():
     opciones = {'1':'Menú anterior'}
     menu(opciones)
     
-def menu_administrador(usr:str):
+def menu_operador(usr:str):
     '''
     Función que muestra el menú cuando un usuario se registra
 
@@ -80,7 +80,7 @@ def menu_administrador(usr:str):
     opciones = {'1':'Menú anterior'}
     menu(opciones)
 
-def menu_operador(usr:str) -> None:
+def menu_administrador(usr:str) -> None:
     '''
     Función que muestra el menú cuando un usuario se registra
 
@@ -94,7 +94,7 @@ def menu_operador(usr:str) -> None:
     None.
 
     '''
-    print(f'Felicidades, has ingresado')
+    print(f'Felicidades, has ingresado!')
     opciones = {'1':'Menú anterior',
                 '2':'Gestionar Estaciones',
                 '3':'Gestionar Usuarios',
@@ -103,7 +103,7 @@ def menu_operador(usr:str) -> None:
     op = '-1'
 
     while op != '1':
-        print('Menu Usuario Operador')
+        print('Menu Usuario Administrador')
         op = menu(opciones)
         if op != '1':
             if op == '2':
@@ -170,7 +170,30 @@ def menu_manipulacion_usuarios(usr:str):
     None.
 
     '''
-    pass
+    opciones = {'1':'Menú anterior',
+                '2':'Crear Usuario',
+                '3':'Editar Usuario',
+                '4':'Eliminar Usuario'}
+    
+    op = '-1'
+
+    while op != '1':
+        limpiar_pantalla()
+        print(f'Menu Usuarios')
+        op = menu(opciones)
+        if op != '1':
+            if op == '2':
+                crear_usuario(usr)
+                limpiar_pantalla()
+            elif op == '3':
+                actualizar_estacion()
+                limpiar_pantalla()
+            elif op == '4':
+                eliminar_usuario(usr)
+                limpiar_pantalla()
+            else:
+                print('Error, has ingresado una opcion no valida, intentalo de nuevo')
+    limpiar_pantalla()
 
 def depurar_registro():
     '''

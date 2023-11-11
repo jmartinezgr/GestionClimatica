@@ -35,8 +35,10 @@ def menu(opciones: dict) -> str:
 
 def ingresar_documento():
     documento = input('ingrese el numero de documento: ')
-    while validar_documento(documento) == False:
-        print('Documento inválido, por favor verifique que sean solo números y sean 10 cifras.')
+    
+    usuarios = cargar_info(bd_file)['usuarios']
+    
+    while validar_documento(documento,usuarios=usuarios) == False:
         documento = input('ingrese el numero de documento: ')
     return documento
 
@@ -59,7 +61,7 @@ def ingresar_clave():
 
 def ingresar_rol():
     roles = ['Administrador','Operador']
-    rol = ''
+    rol = None
     while rol not in roles:
         if rol != None:
             print('opción inválida, intente nuevamente')
@@ -72,22 +74,6 @@ def ingresar_rol():
             if 0 <= rol < len(roles):
                 rol = roles[rol]
     return rol
-
-def crear_usuario(usuarios):
-    documento = ingresar_documento()
-    if documento in usuarios.keys():
-        print('Ese usuario ya existe')
-        return False
-    nombre = ingresar_nombre()
-    clave = ingresar_clave()
-    rol = ingresar_rol()
-
-    usuarios[documento] = {}
-    usuarios[documento]['nombre'] = nombre
-    usuarios[documento]['clave'] = clave
-    usuarios[documento]['rol'] = rol
-    print(f'Felicidades, {nombre}, te has registrado exitosamente!')
-    return True
 
 def login():
     
@@ -252,6 +238,93 @@ def eliminar_estacion():
 
     limpiar_pantalla()
     print(f"Estación eliminada con éxito. Clave: {id_estacion} Nombre: {nombre_estacion}")
+    print()
+    opciones = {'1': 'Volver al menú anterior'}
+    menu(opciones)
+
+
+"""
+
+    Funcionalidades de la Gestion de los usuarios
+
+"""
+
+
+def elegir_usuario_eliminar(usr):
+    info = cargar_info(bd_file)
+
+    usuarios = info['usuarios']
+
+    opciones = {
+        str(i+1): f'Nombre: {usuarios[i]["nombre"]}  Rol: {usuarios[i]["rol"]} Documento: {usuarios[i]["id"]}' 
+        for i in range(len(usuarios)) 
+        if usuarios[i]['id'] != usr
+    }
+
+    if not opciones:
+        print("No hay usuarios disponibles para eliminar, solo existe el usuario actual.")
+        return None
+
+    print('Se listarán los usuarios con su identificación por su número de ID, elige dicho número para indicar cuál quieres eliminar, si nota un salto en las opciones es porque el usuario actual no se tiene en cuenta')
+    print()
+
+    return int(menu(opciones))-1
+
+def eliminar_usuario(usr):
+    limpiar_pantalla()
+    print('Eliminemos un usuario')
+    print()
+
+    indice_usuario = elegir_usuario_eliminar(usr)
+
+    if indice_usuario is None:
+        # No hay usuarios disponibles para eliminar, o el usuario actual
+        opciones = {'1': 'Volver al menú anterior'}
+        menu(opciones)
+        return
+
+    info = cargar_info(bd_file)
+
+    usuario = info['usuarios'][indice_usuario]
+
+    nombre_usuario = usuario['nombre']
+    id_usuario = usuario['id']
+    info['usuarios'].pop(indice_usuario)
+
+    # Guardar la información actualizada en el archivo
+    guardar_info(bd_file, info)
+
+    limpiar_pantalla()
+    print(f"Usuario eliminado con éxito. ID: {id_usuario} Nombre: {nombre_usuario}")
+    print()
+    opciones = {'1': 'Volver al menú anterior'}
+    menu(opciones)
+
+def crear_usuario(usr):
+    limpiar_pantalla()
+    print('Creemos un usuario')
+    
+    nombre = ingresar_nombre()
+    documento = ingresar_documento()
+    rol = ingresar_rol()
+    clave = ingresar_clave()
+
+    info = cargar_info(bd_file)
+
+    info['usuarios'].append(
+        {
+            'clave':clave,
+            'id':documento,
+            'nombre':nombre,
+            'rol':rol
+        }
+    )
+
+    # Guardar la información actualizada en el archivo
+    guardar_info(bd_file, info)
+
+    limpiar_pantalla()
+    print(f"Usuario creado con éxito. ID: {documento} Nombre: {nombre}")
     print()
     opciones = {'1': 'Volver al menú anterior'}
     menu(opciones)
