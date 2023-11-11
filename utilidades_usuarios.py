@@ -199,3 +199,59 @@ def actualizar_estacion():
     opciones = {'1':'Volver al menu anterior'}
 
     menu(opciones)
+
+def tiene_registros_asociados(centro_id, registros):
+    for registro in registros[1:]:
+        if 'centro_id' in registro and registro['centro_id'] == centro_id:
+            return True
+    return False
+
+def elegir_estacion_eliminar():
+    info = cargar_info(bd_file)
+    
+    centros = info['centros']
+    registros = info['registros']
+
+    opciones = {
+        str(centro_id): f'Nombre: {centro["nombre"]}  Ciudad: {centro["ciudad"]}' 
+        for centro_id, centro in centros.items() 
+        if not tiene_registros_asociados(str(centro_id), registros)
+    }
+
+    if not opciones:
+        print("No hay estaciones sin registros asociados.")
+        return None
+
+    print('Se listaran los centros que no tienen registros relacionados con su identificados por su numero de id, elije dicho numero para indicar cual quieres eliminar')
+    print('Si pretendia borrar un centro que no esta en la lista, primero debe eliminar los registros relacionados a este y volver a este menu')
+    print()
+    return menu(opciones)
+
+def eliminar_estacion():
+    limpiar_pantalla()
+    print('Eliminemos una estación')
+    print()
+
+    id_estacion = elegir_estacion_eliminar()
+
+    if id_estacion is None:
+        # No hay estaciones sin registros asociados
+        opciones = {'1': 'Volver al menú anterior'}
+        menu(opciones)
+        return
+
+    info = cargar_info(bd_file)
+
+    nombre_estacion = info['centros'][id_estacion]['nombre']
+
+    # Eliminar la estación del diccionario de centros
+    del info['centros'][id_estacion]
+
+    # Guardar la información actualizada en el archivo
+    guardar_info(bd_file, info)
+
+    limpiar_pantalla()
+    print(f"Estación eliminada con éxito. Clave: {id_estacion} Nombre: {nombre_estacion}")
+    print()
+    opciones = {'1': 'Volver al menú anterior'}
+    menu(opciones)

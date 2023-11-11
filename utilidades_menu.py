@@ -150,7 +150,8 @@ def menu_estaciones():
                 actualizar_estacion()
                 limpiar_pantalla()
             elif op == '4':
-                depurar_registro()
+                eliminar_estacion()
+                limpiar_pantalla()
             else:
                 print('Error, has ingresado una opcion no valida, intentalo de nuevo')
     limpiar_pantalla()
