@@ -5,6 +5,8 @@ Created on Wed Apr 26 09:24:37 2023
 @author: gita2
 """
 
+from datetime import datetime
+
 def split(text: str, sep = ' ') -> list:
     '''
     Parametros
@@ -253,3 +255,169 @@ def guardar_info(file_path: str, info: dict) -> None:
 
         for registro in info['registros'][1:]:
             file.write(f"{registro['fecha']};{registro['centro_id']};{{{unir(registro['datos'],',')}}}\n")
+
+def is_alpha(char: str) -> bool:
+    '''
+    Verifica si el carácter dado es una letra (mayúscula o minúscula).
+    
+    Argumentos:
+        char: Carácter a verificar
+    return -> Boolean (True or False) si es una letra o no
+    '''
+    letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    return char in letras
+
+def is_space(char: str) -> bool:
+    '''
+    Verifica si el carácter dado es un espacio.
+    
+    Argumentos:
+        char: Carácter a verificar
+    return -> Boolean (True or False) si es un espacio o no
+    '''
+    return char == ' '
+
+def validar_nombre(nombre: str) -> bool:
+    '''
+    Valida nombre válido (solo letras y espacios)
+    
+    Argumentos:
+        nombre: String a validar
+    return -> Boolean (True or False) si es válido o no
+    '''
+    return all(is_alpha(char) or is_space(char) for char in nombre)
+
+def validar_documento(documento: str, usuarios: list) -> bool:
+    '''
+    Valida un número de documento. Debe contener 10 caracteres, todos numéricos.
+    
+    Argumentos:
+        documento: string a validar
+        usuarios: lista de usuarios para verificar duplicados
+    return -> Boolean (True or False) si es válido o no
+    '''
+    # Verificar longitud y que todos los caracteres sean numéricos
+    if len(documento) == 10 and all(is_digit(char) for char in documento):
+        # Verificar que el documento no esté repetido en la lista de usuarios
+        for usuario in usuarios:
+            if 'id' in usuario and usuario['id'] == documento:
+                return False
+        return True
+    return False
+
+def validar_fecha(fecha: str) -> bool:
+    '''
+    Valida que un string corresponda a una fecha válida (con formato yyyy-mm-dd).
+    
+    Argumentos:
+        fecha -> string a validar
+    return -> Boolean (True or False) si es válido o no
+    '''
+    try:
+        # Intentar crear un objeto datetime desde la cadena de fecha
+        datetime.strptime(fecha, '%Y-%m-%d %H:%M:%S')
+        return True
+    except ValueError:
+        # Capturar la excepción ValueError que se produce si el formato es incorrecto
+        return False
+    
+def imprimir_tabla(tabla, ancho, encabezado=None):  
+    ''' 
+    Imprime en pantalla un tabla con los datos pasados, ajustado a los tamaños deseados.
+    
+    Argumentos:
+        tabla: Lista que representa la tabla. Cada elemento es una fila
+        ancho: Lista con el tamaño deseado para cada columna. Si se especifica
+            un entero, todas las columnas quedan de ese tamaño
+        encabezado: Lista con el encabezado de la tabla
+    '''
+    def dividir_fila(ancho,sep='-'):
+        '''
+        ancho: Lista con el tamaño de cada columna
+        se: Caracter con el que se van a formar las líneas que 
+            separan las filas
+        '''
+        linea = ''
+        for i in range(len(ancho)):
+            linea += ('+'+sep*(ancho[i]-1))
+        linea = linea[:-1]+'+'
+        print(linea)
+        
+    def imprimir_celda(texto, impresos, relleno):
+        '''
+        texto: Texto que se va a colocar en la celda
+        impresos: cantidad de caracteres ya impresos del texto
+        relleno: cantidad de caracteres que se agregan automáticamente,
+            para separar los textos del borde de las celda.
+        '''        
+        # Imprimir celda
+        if type(texto) == type(0.0):
+            #print(texto)
+            texto = '{:^7.2f}'.format(texto)
+            #print(type(texto), texto)
+        else:
+            texto = str(texto)
+        texto = texto.replace('\n',' ').replace('\t',' ')
+        if impresos+relleno < len(texto):
+            print(texto[impresos:impresos+relleno],end='')
+            impresos+=relleno
+        elif impresos >= len(texto):
+            print(' '*(relleno),end='')
+        else:
+            print(texto[impresos:], end='')
+            print(' '*(relleno-(len(texto) - impresos)),end='')
+            impresos = len(texto)
+        return impresos
+    
+    def imprimir_fila(fila):
+        '''
+        fila: Lista con los textos de las celdas de la fila
+        '''
+        impresos = []   
+        alto = 1
+        for i in range(len(fila)):
+            impresos.append(0)
+            if type(fila[i]) == type(0.0):
+                texto = '{:7.2f}'.format(fila[i])
+            else:
+                texto = str(fila[i])
+            alto1 = len(texto)//(ancho[i]-4)
+            if len(texto)%(ancho[i]-4) != 0:
+                alto1+=1
+            if alto1 > alto:
+                alto = alto1
+        for i in range(alto):
+            print('| ',end='')
+            for j in range(len(fila)):
+                relleno = ancho[j]-3
+                if j == len(fila)-1:
+                    relleno = ancho[j] -4
+                    impresos[j] = imprimir_celda(fila[j], impresos[j], relleno)
+                    print(' |')
+                else:
+                    impresos[j] = imprimir_celda(fila[j], impresos[j], relleno)
+                    print(' | ',end='')   
+    if not len(tabla) > 0:
+        return
+    if not type(tabla[0]) is list:
+        return
+    ncols = len(tabla[0])
+    if type(ancho) == type(0):
+        ancho = [ancho+3]*ncols 
+    elif type(ancho) is list:
+        for i in range(len(ancho)):
+            ancho[i]+=3
+    else:
+        print('Error. El ancho debe ser un entero o una lista de enteros')
+        return
+    assert len(ancho) == ncols, 'La cantidad de columnas no coincide con los tamaños dados'
+    ancho[-1] += 1
+    if encabezado != None:
+        dividir_fila(ancho,'=')
+        imprimir_fila(encabezado)
+        dividir_fila(ancho,'=')
+    else:
+        dividir_fila(ancho)
+    for fila in tabla:
+        imprimir_fila(fila)
+        dividir_fila(ancho)
