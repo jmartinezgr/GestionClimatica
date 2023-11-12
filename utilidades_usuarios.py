@@ -62,6 +62,7 @@ def ingresar_nombre():
     return nombre
 
 def ingresar_clave():
+    
     clave = ''
     clave2 = ''
     while clave != clave2 or len(clave) < 4:
@@ -80,8 +81,8 @@ def ingresar_rol():
         print('Elija el rol para este usuario:')
         for i in range(len(roles)):
             print('\t', str(i+1), ') ', roles[i], sep = '')
-        rol = input()
-        if rol.isnumeric():
+        rol = input('Elija una opcion que deseas: ')
+        if is_digit(rol):
             rol = int(rol)-1
             if 0 <= rol < len(roles):
                 rol = roles[rol]
@@ -259,12 +260,17 @@ def actualizar_estacion():
     
     id_estacion = elegir_estacion()
 
+    limpiar_pantalla()
+
     info = cargar_info(bd_file)
 
     nuevo_nombre = elegir_nombre_estacion(info['centros'][id_estacion]['nombre'])
+    limpiar_pantalla()
     print(f'Elige la nueva ciudad, o ingresa el numero de la ciudad en la que esta actualmente ({info['centros'][id_estacion]['ciudad']}) para mantener el estado actual: ')
     print()
     nueva_ciudad = elegir_municipio()
+
+    limpiar_pantalla()
 
     info['centros'][id_estacion] = {
         'ciudad': nueva_ciudad,
@@ -360,7 +366,7 @@ def elegir_usuario_actualizar(usr:str) -> int:
     return int(menu(opciones))-1
 
 def elegir_nombre_usuario(nombre:str):
-    
+    limpiar_pantalla()
     print(f'Se te solicitara un nuevo nombre, dale enter si deseas que se mantenga el nombre actual ({nombre})')
     nombre_nuevo = ingresar_nombre()
 
@@ -377,12 +383,13 @@ def actualizar_usuario(usr:str) -> None:
     usuario = info['usuarios'][indice_usuario]
 
     nuevo_nombre = elegir_nombre_usuario(usuario['nombre'])
-
+    limpiar_pantalla()
     opciones = {'1':f'Mantener la contraseña ({usuario['clave']}):',
                 '2':f'Cambiar la contrasña actual'}
 
     nueva_constraseña = usuario['clave'] if menu(opciones) == '1' else ingresar_clave()
-
+    
+    limpiar_pantalla()
     opciones = {'1':f'Mantener el rol ({usuario['rol']}):',
                 '2':f'Cambiar el rol actual'}
 
@@ -510,7 +517,6 @@ def mostrar_medidas(id_estacion: str) -> None:
 
         return
 
-    limpiar_pantalla()
     print()
     print(f'REGISTROS CENTRO CON ID: {id_estacion}')
 
@@ -528,7 +534,7 @@ def mostrar_medidas(id_estacion: str) -> None:
     encabezado = ['Centro ID','Fecha']+nombres_unidades
 
     # Imprimir la tabla usando la función imprimir_tabla
-    imprimir_tabla(registros_estacion,[9,20,12,12,17,12],encabezado,True)
+    imprimir_tabla(registros_estacion,[9,20,12,12,17,12],encabezado)
 
     print('Se ha impreso la informacion disponible para este centro!')
     opciones = {'1': 'Volver al menú anterior'}
