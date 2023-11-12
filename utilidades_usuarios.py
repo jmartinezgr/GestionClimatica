@@ -41,6 +41,10 @@ def obtener_tiempo_actual():
 
     return tiempo_formateado
 
+def convertir_fecha(fecha_str: str) -> datetime:
+    # Convierte una cadena de fecha a un objeto datetime
+    return datetime.strptime(fecha_str, '%Y-%m-%d %H:%M:%S')
+
 def ingresar_documento():
     documento = input('ingrese el numero de documento: ')
     
@@ -562,3 +566,135 @@ def agregar_registro(id_estacion:str) -> None:
 
     opciones = {'1': 'Volver al menú anterior'}
     menu(opciones)
+
+#Usuario Invitado
+
+"""
+
+    Funciones dedicadas al uso de los usuarios invitados en la aplicacion
+
+"""
+
+def elegir_variables() -> list:
+    
+    info = cargar_info(bd_file)
+
+    limpiar_pantalla()
+
+    registros = info['registros']
+    variables_elegidas=[]
+    linea = split(registros[0],';')
+    for i in range(4):
+        nombre, infos = split(linea[i],'[')
+
+        rango,unidad = split(infos[:-1],',')
+
+        rango_inf, rango_sup = split(rango,':')
+
+        print(f'Deseas analizar la variable {nombre}')
+
+        opciones = {'1':'Si',
+                    '2':'No'}
+        
+        if menu(opciones) == '1':
+            variables_elegidas.append(i)
+
+    return variables_elegidas
+
+def elegir_ciudades() -> list:
+
+    info = cargar_info(bd_file)
+    
+    ciudades = info['ciudades']
+
+    ciudades_elegidas = []
+
+    for ciudad in ciudades:
+        print(f'Deseas analizar la ciudad {ciudad}')
+
+        opciones = {'1':'Si',
+                    '2':'No'}
+        
+        if menu(opciones) == '1':
+            ciudades_elegidas.append(ciudad)
+
+    return ciudades_elegidas
+
+def mostrar_estadisticas(dias:int, variables:list ,ciudades:list):
+    
+    info = cargar_info(bd_file)
+
+    registros = info['registros']
+    centros = info['centros']
+
+    fecha_actual = datetime.now()
+
+    nombre_variables = []
+    unidades_variables = []
+    linea = split(registros[0],';')
+    for i in range(4):
+
+        nombre, infos = split(linea[i],'[')
+        rango,unidad = split(infos[:-1],',')
+        rango_inf, rango_sup = split(rango,':')
+
+        if i in variables:
+            nombre_variables.append(nombre)
+            unidades_variables.append(unidad)
+
+
+    registros_filtrados = [
+        registro for registro in registros[1:]
+        if (fecha_actual - convertir_fecha(registro['fecha'])).days <= dias and 
+        centros[registro['centro_id']]['ciudad'] in ciudades
+    ] 
+    
+    if registros_filtrados:
+        for i in range(len(variables)):
+            variable = variables[i]
+            nombre = nombre_variables[i]
+
+            menor = 1000
+            mayor = -1000
+            promedio = 0
+            centros_re = ['', '']
+            fechas = ['', '']
+            suma = 0
+
+            for registro in registros_filtrados:
+                datos = registro['datos']
+               
+                if float(datos[variable]) > mayor:
+                    mayor = float(datos[variable])
+                    centros_re[0] = centros[registro['centro_id']]['nombre']
+                    fechas[0] = registro['fecha']
+
+                if float(datos[variable]) < menor and float(datos[variable]) != -999.0:
+                    menor = float(datos[variable]) 
+                    centros_re[1] = centros[registro['centro_id']]['nombre']
+                    fechas[1] = registro['fecha']
+
+                promedio += float(datos[variable]) if float(datos[variable]) != -999.0 else 0
+                suma += 1 if float(datos[variable]) != -999.0 else 0
+            encabezados = [nombre, 'Valor', 'Centro', 'Fecha']
+            data = []
+
+            suma = 1 if suma == 0 else suma
+            data.append(['Minimo', menor, centros_re[1], fechas[1]])
+            data.append(['Maximo', mayor, centros_re[0], fechas[0]])
+            data.append(['Promedio', promedio / suma, 'NA', 'NA'])
+ 
+            imprimir_tabla(data, [8, 8, 25, 25], encabezados)
+            print()
+    
+        print('Se han mostrado las estadisticas')
+
+        opciones = {'1': 'Volver al menú anterior'}
+        menu(opciones)
+    else:
+        print('No se han encontrado datos para mostrar con tus peticiones!')
+        opciones = {'1': 'Volver al menú anterior'}
+        menu(opciones)
+
+def exportar_estadisticas(dias:int, variables:list ,ciudades:list):
+    pass

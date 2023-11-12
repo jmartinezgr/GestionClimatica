@@ -49,6 +49,8 @@ def menu_principal() -> str:
                 '3':'Salir'}
     return menu(opciones)
 
+#----------------------------------------------------------------------------------------------------------- 
+
 def menu_invitado():
     '''
     Función que muestra el menú de invitado
@@ -58,9 +60,117 @@ def menu_invitado():
     None.
 
     '''
-    print('Felicidades, entraste como modo invitado, no puedes hacer nada...')
-    opciones = {'1':'Menú anterior'}
-    menu(opciones)
+    limpiar_pantalla()
+    print('Felicidades, entraste como modo invitado!')
+    opciones = {'1':'Menú anterior',
+                '2':'Visualizar estadisticas'}
+    
+    op = '-1'
+
+    while op != '1':
+        print('Menu Usuario Invitado')
+        op = menu(opciones)
+        if op != '1':
+            if op == '2':
+                menu_invitado_estadisticas()
+                limpiar_pantalla()
+            else:
+                limpiar_pantalla()
+                print('Error, has ingresado una opcion no valida, intentalo de nuevo')
+                print()
+    limpiar_pantalla()
+    
+def menu_invitado_estadisticas():
+    limpiar_pantalla()
+    opciones = {'1':'Menú anterior',
+                '2':'7 ultimos dias',
+                '3':'30 ultimos dias',
+                '4':'Elegir fechas manualmente'}
+    
+    op = '-1'
+
+    while op != '1':
+        print('Menu Usuario Invitado')
+        op = menu(opciones)
+        if op != '1':
+            if op == '2':
+                dias = 7
+                limpiar_pantalla()
+                variables = elegir_variables()
+                limpiar_pantalla()
+                ciudades = elegir_ciudades()
+                limpiar_pantalla()
+
+                if ciudades and variables:
+                    menu_analisis_visitante(dias,variables,ciudades)
+                else:
+                    print('No puedes hacer analisis sin variables y/0 sin ciudades')
+            elif op == '3':
+                dias = 30
+                limpiar_pantalla()
+                variables = elegir_variables()
+                limpiar_pantalla()
+                ciudades = elegir_ciudades()
+                limpiar_pantalla()
+                if ciudades and variables:
+                    menu_analisis_visitante(dias,variables,ciudades)
+                else:
+                    
+                    print('No puedes hacer analisis sin variables y/0 sin ciudades')
+            elif op == '4':
+                flag = True
+
+                while(flag):
+                    dias = input('Ingrese una valor correspondiente a la cantidad de dias del analisis: ')
+                    if [is_digit(x) for x in dias]:
+                        if(dias != 0):
+                            flag = False
+                        else:
+                            print('No se pueden analizar 0 dias')
+                    else:
+                        print('Error, numero no valido')
+                limpiar_pantalla()
+                dias = int(dias)
+                limpiar_pantalla()
+                variables = elegir_variables()
+                limpiar_pantalla()
+                ciudades = elegir_ciudades()
+
+                if ciudades and variables:
+                    menu_analisis_visitante(dias,variables,ciudades)
+                else:
+                    limpiar_pantalla()
+                    print('No puedes hacer analisis sin variables y/0 sin ciudades')
+            else:
+                limpiar_pantalla()
+                print('Error, has ingresado una opcion no valida, intentalo de nuevo')
+                print()
+    limpiar_pantalla()
+
+def menu_analisis_visitante(dias:int, variables:list ,ciudades:list):
+    limpiar_pantalla()
+    opciones = {'1': 'Volver al menú anterior',
+                '2': 'Visualizar Estadisticas',
+                '3':'Exportar Estadisticas'}    
+
+    op = '-1'
+
+    while op != '1':
+        print('Menu Usuario Invitado')
+        op = menu(opciones)
+        if op != '1':
+            if op == '2':
+                mostrar_estadisticas(dias,variables,ciudades)
+                limpiar_pantalla()
+            elif op == '3':
+                mostrar_estadisticas(dias,variables,ciudades)  
+                limpiar_pantalla()
+            else:
+                limpiar_pantalla()
+                print('Error, has ingresado una opcion no valida, intentalo de nuevo')
+                print()
+    limpiar_pantalla()
+#-----------------------------------------------------------------------------------------------------------    
     
 def menu_operador(usr:str):
     '''
@@ -168,6 +278,7 @@ def menu_operador_centros(id_estacion: str):
                 print()
     limpiar_pantalla()
 
+#----------------------------------------------------------------------------------------------------------- 
 
 def menu_administrador(usr:str) -> None:
     '''
