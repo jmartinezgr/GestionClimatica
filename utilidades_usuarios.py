@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Apr 26 14:14:59 2023
 
-@author: gita2
-"""
 # Definimos la constante de acceso a los datos
 bd_file = 'registros.txt'
 
 from utilidades_documentos import *
+
+## FUNCIONALIDADES GENERALES
 
 def menu(opciones: dict) -> str:
     '''
@@ -95,6 +93,14 @@ def login():
     
     return None
 
+# FUNCIONALIDADES PROPIAS DE EL USUARIO ADMINISTRADOR
+
+"""
+    
+    Funcionalidades de la Gestion de los centros
+
+"""
+
 def elegir_municipio() -> str:
     
     info = cargar_info(bd_file)
@@ -103,16 +109,26 @@ def elegir_municipio() -> str:
 
     return info['ciudades'][int(menu(opciones))-1]
 
-def elegir_estacion() -> str:
+def elegir_estacion(municipio:str = None) -> str:
 
-    info = cargar_info(bd_file)
+    if municipio is None:
+        info = cargar_info(bd_file)
 
-    centros = info['centros']
-    opciones = {str(centro_id): f'Nombre: {centro["nombre"]}  Ciudad: {centro["ciudad"]}' for centro_id, centro in centros.items()}
-    
-    print('Se listaran los centros con su identificados por su numero de id, elije dicho numero para indicar cual quieres modificar')
-    print()
-    return menu(opciones)
+        centros = info['centros']
+        opciones = {str(centro_id): f'Nombre: {centro["nombre"]}  Ciudad: {centro["ciudad"]}' for centro_id, centro in centros.items()}
+        
+        print('Se listaran los centros con su identificados por su numero de id, elije dicho numero para indicar cual quieres modificar')
+        print()
+        return menu(opciones)
+    else:
+        info = cargar_info(bd_file)
+
+        centros = info['centros']
+        opciones = {str(centro_id): f'Nombre: {centro["nombre"]}' for centro_id, centro in centros.items() if centro['ciudad']==municipio}
+        limpiar_pantalla()
+        print(f'Se listaran los centros con su identificados por su numero de id y que pertenecen a la ciudad de {municipio}')
+
+        return menu(opciones)
 
 def elegir_nombre_estacion(nombre_centro:str) -> str:
 
@@ -386,5 +402,57 @@ def crear_usuario(usr):
     limpiar_pantalla()
     print(f"Usuario creado con éxito. ID: {documento} Nombre: {nombre}")
     print()
+    opciones = {'1': 'Volver al menú anterior'}
+    menu(opciones)
+
+
+# FUNCIONALIDADES PROPIAS DE EL USUARIO ADMINISTRADOR
+
+"""
+    
+    Funcionalidades de la Gestion de Centros por los operadores
+
+"""
+
+def mostrar_medidas(id_estacion: str) -> None:
+    info = cargar_info(bd_file)
+
+    registros = info['registros']
+
+    # Filtrar registros para obtener solo aquellos relacionados con la estación específica
+    registros_estacion = [ 
+        [registro['centro_id'],registro['fecha']]+[dato for dato in registro['datos']]
+        for registro in registros[1:] 
+        if registro['centro_id'] == id_estacion]
+
+    if not registros_estacion:
+        print("No hay registros para mostrar.")
+        opciones = {'1': 'Volver al menú anterior'}
+        menu(opciones)
+
+        return
+
+    limpiar_pantalla()
+    print()
+    print(f'REGISTROS CENTRO {id_estacion}')
+
+
+    # Obtener nombres y unidades desde el primer elemento de la lista de registros
+    nombres_unidades=[]
+    linea = split(registros[0],';')
+    for i in range(4):
+        nombre, info = split(linea[i],'[')
+
+        rango,unidad = split(info[:-1],',')
+
+        nombres_unidades.append(f'{nombre} : {unidad}')
+
+    # Construir la tabla
+    encabezado = ['Centro ID','Fecha']+nombres_unidades
+
+    # Imprimir la tabla usando la función imprimir_tabla
+    imprimir_tabla(registros_estacion,[9,20,12,12,17,12],encabezado)
+
+    print('Se ha impreso la informacion disponible para este centro!')
     opciones = {'1': 'Volver al menú anterior'}
     menu(opciones)

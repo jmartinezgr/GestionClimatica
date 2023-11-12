@@ -76,9 +76,97 @@ def menu_operador(usr:str):
     None.
 
     '''
-    print(f'Felicidades, has ingresado')
-    opciones = {'1':'Menú anterior'}
-    menu(opciones)
+    print(f'Felicidades, has ingresado!')
+    opciones = {'1':'Menú anterior',
+                '2':'Seleccionar Ciudad',
+                }    
+    op = '-1'
+
+    while op != '1':
+        print('Menu Usuario Operador')
+        op = menu(opciones)
+        if op != '1':
+            if op == '2':
+                menu_operador_ciudad()
+                limpiar_pantalla()
+            else:
+                limpiar_pantalla()
+                print('Error, has ingresado una opcion no valida, intentalo de nuevo')
+                print()
+    limpiar_pantalla()
+
+def menu_operador_ciudad():
+    opciones = {'1':'Menú anterior',
+                '2':'Elegir Ciudad',
+                } 
+    op = '-1'
+
+    while op != '1':
+        limpiar_pantalla()
+        print('Menu Usuario Operador: Elegir Ciudad')
+        op = menu(opciones)
+        if op != '1':
+            if op == '2':
+                municipio = elegir_municipio()
+                limpiar_pantalla()
+                menu_operador_estaciones(municipio)
+                limpiar_pantalla()
+            else:
+                limpiar_pantalla()
+                print('Error, has ingresado una opcion no valida, intentalo de nuevo')
+                print()
+    limpiar_pantalla()
+
+def menu_operador_estaciones(municipio:str):
+    opciones = {'1':'Menú anterior',
+                '2':'Elegir Centro',
+                } 
+    op = '-1'
+
+    print(municipio)
+
+    while op != '1':
+        limpiar_pantalla()
+        print('Menu Usuario Operador: Elegir Centro')
+        op = menu(opciones)
+        if op != '1':
+            if op == '2':
+                id_estacion = elegir_estacion(municipio)
+                menu_operador_centros(id_estacion)
+                limpiar_pantalla()
+            else:
+                limpiar_pantalla()
+                print('Error, has ingresado una opcion no valida, intentalo de nuevo')
+                print()
+    limpiar_pantalla()
+
+def menu_operador_centros(id_estacion: str):
+    limpiar_pantalla()
+
+    opciones = {'1':'Menú anterior',
+                '2':'Mostrar Estdisticas',
+                '3':'Agregar Registro'
+                } 
+    op = '-1'
+
+    while op != '1':
+        print(f'Menu Usuario Operador: Elegi una accion para el centro con id {id_estacion}')
+        op = menu(opciones)
+        if op != '1':
+            if op == '2':
+                mostrar_medidas(id_estacion)
+                limpiar_pantalla()
+            elif op == '3':
+                id_estacion = elegir_estacion()
+                menu_operador_centros(id_estacion)
+                limpiar_pantalla()
+            else:
+                limpiar_pantalla()
+                print('Error, has ingresado una opcion no valida, intentalo de nuevo')
+                print()
+    limpiar_pantalla()
+
+
 
 def menu_administrador(usr:str) -> None:
     '''
@@ -111,10 +199,13 @@ def menu_administrador(usr:str) -> None:
                 limpiar_pantalla()
             elif op == '3':
                 menu_manipulacion_usuarios(usr)
+                limpiar_pantalla()
             elif op == '4':
                 depurar_registro()
             else:
+                limpiar_pantalla()
                 print('Error, has ingresado una opcion no valida, intentalo de nuevo')
+                print()
     limpiar_pantalla()
 
 def menu_estaciones():
