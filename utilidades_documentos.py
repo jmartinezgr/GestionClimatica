@@ -6,6 +6,7 @@ Created on Wed Apr 26 09:24:37 2023
 """
 
 from datetime import datetime
+import os
 
 """
 
@@ -220,6 +221,11 @@ def cargar_info(file_path: str) -> dict:
         ]
     }
     '''
+
+    if not os.path.exists(file_path):
+        print(f"El archivo {file_path} no existe.")
+        return None
+
     info = {
         'usuarios': [],
         'ciudades': [],
@@ -272,9 +278,7 @@ def cargar_info(file_path: str) -> dict:
                         })
                     else:
                         print(f"Error en el formato de la línea: {line}")
-
     return info
-
 
 def guardar_info(file_path: str, info: dict) -> None:
     '''

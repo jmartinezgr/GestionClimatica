@@ -11,6 +11,8 @@ from utilidades_usuarios import *
 
 op = '-1'
 
+limpiar_pantalla()
+
 while op != '3':
     op = menu_principal()
     if op != '3':     

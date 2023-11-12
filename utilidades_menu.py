@@ -81,6 +81,19 @@ def menu_invitado():
     limpiar_pantalla()
     
 def menu_invitado_estadisticas():
+    '''
+    Función que muestra el menú cuando un usuario se registra
+
+    Parameters
+    ----------
+    usr : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    None.
+
+    '''    
     limpiar_pantalla()
     opciones = {'1':'Menú anterior',
                 '2':'7 ultimos dias',
@@ -148,6 +161,19 @@ def menu_invitado_estadisticas():
     limpiar_pantalla()
 
 def menu_analisis_visitante(dias:int, variables:list ,ciudades:list):
+    '''
+    Función que muestra el menú cuando un usuario se registra
+
+    Parameters
+    ----------
+    usr : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    None.
+
+    '''    
     limpiar_pantalla()
     opciones = {'1': 'Volver al menú anterior',
                 '2': 'Visualizar Estadisticas',
@@ -209,6 +235,20 @@ def menu_operador(usr:str):
     limpiar_pantalla()
 
 def menu_operador_ciudad():
+    '''
+    Función que muestra el menú cuando un usuario se registra
+
+    Parameters
+    ----------
+    usr : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    None.
+
+    '''    
+    
     opciones = {'1':'Menú anterior',
                 '2':'Elegir Ciudad',
                 } 
@@ -233,6 +273,20 @@ def menu_operador_ciudad():
     limpiar_pantalla()
 
 def menu_operador_estaciones(municipio:str):
+    '''
+    Función que muestra el menú cuando un usuario se registra
+
+    Parameters
+    ----------
+    usr : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    None.
+
+    '''    
+    
     opciones = {'1':'Menú anterior',
                 '2':'Elegir Centro',
                 } 
@@ -257,6 +311,20 @@ def menu_operador_estaciones(municipio:str):
     limpiar_pantalla()
 
 def menu_operador_centros(id_estacion: str):
+    '''
+    Función que muestra el menú cuando un usuario se registra
+
+    Parameters
+    ----------
+    usr : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    None.
+
+    '''    
+    
     limpiar_pantalla()
 
     opciones = {'1':'Menú anterior',
@@ -419,4 +487,25 @@ def depurar_registro():
     None.
 
     '''
-    pass
+    opciones = {'1':'Menú anterior',
+                '2':'Registros compartidos',
+                '3':'Registos unidos'}
+    
+    op = '-1'
+
+    while op != '1':
+        limpiar_pantalla()
+        print(f'Menu Usuarios')
+        op = menu(opciones)
+        if op != '1':
+            if op == '2':
+                registros_compartidos()
+                limpiar_pantalla()
+            elif op == '3':
+                actualizar_usuario()
+                limpiar_pantalla()
+            else:
+                limpiar_pantalla()
+                print('Error, has ingresado una opcion no valida, intentalo de nuevo')
+                print()
+    limpiar_pantalla()
