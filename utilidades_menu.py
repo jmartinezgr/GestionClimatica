@@ -163,7 +163,10 @@ def menu_analisis_visitante(dias:int, variables:list ,ciudades:list):
                 mostrar_estadisticas(dias,variables,ciudades)
                 limpiar_pantalla()
             elif op == '3':
-                mostrar_estadisticas(dias,variables,ciudades)  
+
+                nombre_archivo = input('Ingresa un nombre para el archivo con tus Solicitudes:')
+
+                exportar_estadisticas(dias,variables,ciudades,f'{nombre_archivo}.txt')  
                 limpiar_pantalla()
             else:
                 limpiar_pantalla()

@@ -528,7 +528,7 @@ def mostrar_medidas(id_estacion: str) -> None:
     encabezado = ['Centro ID','Fecha']+nombres_unidades
 
     # Imprimir la tabla usando la función imprimir_tabla
-    imprimir_tabla(registros_estacion,[9,20,12,12,17,12],encabezado)
+    imprimir_tabla(registros_estacion,[9,20,12,12,17,12],encabezado,True)
 
     print('Se ha impreso la informacion disponible para este centro!')
     opciones = {'1': 'Volver al menú anterior'}
@@ -696,5 +696,76 @@ def mostrar_estadisticas(dias:int, variables:list ,ciudades:list):
         opciones = {'1': 'Volver al menú anterior'}
         menu(opciones)
 
-def exportar_estadisticas(dias:int, variables:list ,ciudades:list):
-    pass
+def exportar_estadisticas(dias: int, variables: list, ciudades: list, archivo_salida: str):
+    info = cargar_info(bd_file)
+
+    registros = info['registros']
+    centros = info['centros']
+
+    fecha_actual = datetime.now()
+
+    nombre_variables = []
+    unidades_variables = []
+    linea = split(registros[0], ';')
+    for i in range(4):
+        nombre, infos = split(linea[i], '[')
+        rango, unidad = split(infos[:-1], ',')
+        rango_inf, rango_sup = split(rango, ':')
+
+        if i in variables:
+            nombre_variables.append(nombre)
+            unidades_variables.append(unidad)
+
+    registros_filtrados = [
+        registro for registro in registros[1:]
+        if (fecha_actual - convertir_fecha(registro['fecha'])).days <= dias and
+        centros[registro['centro_id']]['ciudad'] in ciudades
+    ]
+
+    if registros_filtrados:
+        with open(archivo_salida, 'w',encoding='utf-8') as file:
+            file.write('Estadisticas Solicitas: '+ '\n\n')
+            for i in range(len(variables)):
+                variable = variables[i]
+                nombre = nombre_variables[i]
+
+                menor = 1000
+                mayor = -1000
+                promedio = 0
+                centros_re = ['', '']
+                fechas = ['', '']
+                suma = 0
+
+                for registro in registros_filtrados:
+                    datos = registro['datos']
+
+                    if float(datos[variable]) > mayor:
+                        mayor = float(datos[variable])
+                        centros_re[0] = centros[registro['centro_id']]['nombre']
+                        fechas[0] = registro['fecha']
+
+                    if float(datos[variable]) < menor and float(datos[variable]) != -999.0:
+                        menor = float(datos[variable])
+                        centros_re[1] = centros[registro['centro_id']]['nombre']
+                        fechas[1] = registro['fecha']
+
+                    promedio += float(datos[variable]) if float(datos[variable]) != -999.0 else 0
+                    suma += 1 if float(datos[variable]) != -999.0 else 0
+
+                encabezados = [nombre, 'Valor', 'Centro', 'Fecha']
+                data = []
+
+                suma = 1 if suma == 0 else suma
+                data.append(['Minimo', menor, centros_re[1], fechas[1]])
+                data.append(['Maximo', mayor, centros_re[0], fechas[0]])
+                data.append(['Promedio', promedio / suma, 'NA', 'NA'])
+
+                tabla = imprimir_tabla(data, [8, 8, 25, 25], encabezados, retornar=True)
+                file.write(tabla + '\n\n')
+
+        print(f'Se han exportado las estadísticas a {archivo_salida}')
+
+        opciones = {'1': 'Volver al menú anterior'}
+        menu(opciones)
+    else:
+        print('No se han encontrado datos para exportar con tus peticiones!')

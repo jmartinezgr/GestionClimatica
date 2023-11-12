@@ -363,59 +363,50 @@ def validar_fecha(fecha: str) -> bool:
     Funciones especificas para el estilado de salidas de informacion
 
 """
-def imprimir_tabla(tabla, ancho, encabezado=None):  
+
+def imprimir_tabla(tabla, ancho, encabezado=None, retornar=False):  
     ''' 
-    Imprime en pantalla un tabla con los datos pasados, ajustado a los tamaños deseados.
+    Retorna una tabla con los datos pasados, ajustado a los tamaños deseados.
     
     Argumentos:
         tabla: Lista que representa la tabla. Cada elemento es una fila
         ancho: Lista con el tamaño deseado para cada columna. Si se especifica
             un entero, todas las columnas quedan de ese tamaño
         encabezado: Lista con el encabezado de la tabla
+        retornar: Booleano que indica si se retorna el valor o se imprime
     '''
-    def dividir_fila(ancho,sep='-'):
-        '''
-        ancho: Lista con el tamaño de cada columna
-        se: Caracter con el que se van a formar las líneas que 
-            separan las filas
-        '''
+
+    resultado = ''
+
+    def dividir_fila(ancho, sep='-'):
         linea = ''
         for i in range(len(ancho)):
-            linea += ('+'+sep*(ancho[i]-1))
-        linea = linea[:-1]+'+'
-        print(linea)
-        
+            linea += ('+' + sep * (ancho[i] - 1))
+        linea = linea[:-1] + '+'
+        nonlocal resultado
+        resultado += linea + '\n'
+
     def imprimir_celda(texto, impresos, relleno):
-        '''
-        texto: Texto que se va a colocar en la celda
-        impresos: cantidad de caracteres ya impresos del texto
-        relleno: cantidad de caracteres que se agregan automáticamente,
-            para separar los textos del borde de las celda.
-        '''        
-        # Imprimir celda
         if type(texto) == type(0.0):
-            #print(texto)
             texto = '{:^7.2f}'.format(texto)
-            #print(type(texto), texto)
         else:
             texto = str(texto)
-        texto = texto.replace('\n',' ').replace('\t',' ')
-        if impresos+relleno < len(texto):
-            print(texto[impresos:impresos+relleno],end='')
-            impresos+=relleno
+        texto = texto.replace('\n', ' ').replace('\t', ' ')
+        nonlocal resultado
+        if impresos + relleno < len(texto):
+            resultado += texto[impresos:impresos + relleno]
+            impresos += relleno
         elif impresos >= len(texto):
-            print(' '*(relleno),end='')
+            resultado += ' ' * (relleno)
         else:
-            print(texto[impresos:], end='')
-            print(' '*(relleno-(len(texto) - impresos)),end='')
+            resultado += texto[impresos:]
+            resultado += ' ' * (relleno - (len(texto) - impresos))
             impresos = len(texto)
         return impresos
-    
+
     def imprimir_fila(fila):
-        '''
-        fila: Lista con los textos de las celdas de la fila
-        '''
-        impresos = []   
+        nonlocal resultado
+        impresos = []
         alto = 1
         for i in range(len(fila)):
             impresos.append(0)
@@ -423,43 +414,49 @@ def imprimir_tabla(tabla, ancho, encabezado=None):
                 texto = '{:7.2f}'.format(fila[i])
             else:
                 texto = str(fila[i])
-            alto1 = len(texto)//(ancho[i]-4)
-            if len(texto)%(ancho[i]-4) != 0:
-                alto1+=1
+            alto1 = len(texto) // (ancho[i] - 4)
+            if len(texto) % (ancho[i] - 4) != 0:
+                alto1 += 1
             if alto1 > alto:
                 alto = alto1
         for i in range(alto):
-            print('| ',end='')
+            resultado += '| '
             for j in range(len(fila)):
-                relleno = ancho[j]-3
-                if j == len(fila)-1:
-                    relleno = ancho[j] -4
+                relleno = ancho[j] - 3
+                if j == len(fila) - 1:
+                    relleno = ancho[j] - 4
                     impresos[j] = imprimir_celda(fila[j], impresos[j], relleno)
-                    print(' |')
+                    resultado += ' |\n'
                 else:
                     impresos[j] = imprimir_celda(fila[j], impresos[j], relleno)
-                    print(' | ',end='')   
+                    resultado += ' | '
+    
     if not len(tabla) > 0:
-        return
+        return resultado
     if not type(tabla[0]) is list:
-        return
+        return resultado
     ncols = len(tabla[0])
     if type(ancho) == type(0):
-        ancho = [ancho+3]*ncols 
+        ancho = [ancho + 3] * ncols 
     elif type(ancho) is list:
         for i in range(len(ancho)):
-            ancho[i]+=3
+            ancho[i] += 3
     else:
         print('Error. El ancho debe ser un entero o una lista de enteros')
-        return
+        return resultado
     assert len(ancho) == ncols, 'La cantidad de columnas no coincide con los tamaños dados'
     ancho[-1] += 1
-    if encabezado != None:
-        dividir_fila(ancho,'=')
+    if encabezado is not None:
+        dividir_fila(ancho, '=')
         imprimir_fila(encabezado)
-        dividir_fila(ancho,'=')
+        dividir_fila(ancho, '=')
     else:
         dividir_fila(ancho)
     for fila in tabla:
         imprimir_fila(fila)
         dividir_fila(ancho)
+
+    if retornar:
+        return resultado
+    else:
+        print(resultado)
