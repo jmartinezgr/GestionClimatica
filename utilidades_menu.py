@@ -107,6 +107,8 @@ def menu_operador_ciudad():
         op = menu(opciones)
         if op != '1':
             if op == '2':
+                limpiar_pantalla()
+                print('Elige el municipio:')
                 municipio = elegir_municipio()
                 limpiar_pantalla()
                 menu_operador_estaciones(municipio)
@@ -132,8 +134,9 @@ def menu_operador_estaciones(municipio:str):
         if op != '1':
             if op == '2':
                 id_estacion = elegir_estacion(municipio)
-                menu_operador_centros(id_estacion)
-                limpiar_pantalla()
+                if id_estacion != '-1':
+                    menu_operador_centros(id_estacion)
+                    limpiar_pantalla()
             else:
                 limpiar_pantalla()
                 print('Error, has ingresado una opcion no valida, intentalo de nuevo')
@@ -144,7 +147,7 @@ def menu_operador_centros(id_estacion: str):
     limpiar_pantalla()
 
     opciones = {'1':'Menú anterior',
-                '2':'Mostrar Estdisticas',
+                '2':'Mostrar Estadisticas',
                 '3':'Agregar Registro'
                 } 
     op = '-1'
@@ -157,15 +160,13 @@ def menu_operador_centros(id_estacion: str):
                 mostrar_medidas(id_estacion)
                 limpiar_pantalla()
             elif op == '3':
-                id_estacion = elegir_estacion()
-                menu_operador_centros(id_estacion)
+                agregar_registro(id_estacion)
                 limpiar_pantalla()
             else:
                 limpiar_pantalla()
                 print('Error, has ingresado una opcion no valida, intentalo de nuevo')
                 print()
     limpiar_pantalla()
-
 
 
 def menu_administrador(usr:str) -> None:

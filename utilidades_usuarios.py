@@ -31,6 +31,16 @@ def menu(opciones: dict) -> str:
         else:
             print("\nOpción no válida, intenta nuevamente")
 
+def obtener_tiempo_actual():
+    # Obtener la fecha y hora actual
+    tiempo_actual = datetime.now()
+
+    # Formatear la fecha y hora según tus especificaciones
+    formato = "%Y-%m-%d %H:%M:%S"
+    tiempo_formateado = tiempo_actual.strftime(formato)
+
+    return tiempo_formateado
+
 def ingresar_documento():
     documento = input('ingrese el numero de documento: ')
     
@@ -72,6 +82,60 @@ def ingresar_rol():
             if 0 <= rol < len(roles):
                 rol = roles[rol]
     return rol
+
+def id_digit(valor: str) -> bool:
+    '''
+    Verifica si el valor dado es un dígito o es 'ND'.
+
+    Parameters
+    ----------
+    valor : str
+        Valor a verificar.
+
+    Returns
+    -------
+    bool
+        True si es un dígito o 'ND', False de lo contrario.
+    '''
+    if valor == 'ND':
+        return True
+
+    dot_count = 0
+    minus_count = 0
+
+    for i, char in enumerate(valor):
+        if char == '.':
+            dot_count += 1
+        elif char == '-':
+            # Verificar que el guión esté solo al inicio
+            if i != 0:
+                return False
+            minus_count += 1
+        elif not char.isdigit():
+            return False
+
+    # Verificar que haya máximo un punto y el guión solo esté al inicio
+    return dot_count <= 1 and minus_count <= 1
+
+
+def ingresar_dato(ini: float, fin: float, name: str = '') -> float:
+    flag = True
+    while flag:
+        valor = input(f'Ingrese el valor de {name}, recuerde ingresar valores entre {ini} y {fin} o ND si no está disponible: ')
+
+        if valor != 'ND':
+            if id_digit(valor):
+                valor_float = float(valor)
+                if ini <= valor_float <= fin:
+                    flag = False
+                else:
+                    print(f'El valor debe estar entre {ini} y {fin}. Inténtelo de nuevo.')
+            else:
+                print('Por favor, ingrese un valor numérico válido o "ND". Inténtelo de nuevo.')
+        else:
+            return -999.0
+    return valor_float
+
 
 def login():
     
@@ -126,9 +190,19 @@ def elegir_estacion(municipio:str = None) -> str:
         centros = info['centros']
         opciones = {str(centro_id): f'Nombre: {centro["nombre"]}' for centro_id, centro in centros.items() if centro['ciudad']==municipio}
         limpiar_pantalla()
-        print(f'Se listaran los centros con su identificados por su numero de id y que pertenecen a la ciudad de {municipio}')
+        
+        if opciones:
+            print('Elige el centro: ')
+            print(f'Se listaran los centros con su identificados por su numero de id y que pertenecen a la ciudad de {municipio}')
 
-        return menu(opciones)
+            return menu(opciones)
+        else:
+            print('No hay centros relacionados a esa ciudad!')
+            opciones = {'1':'Volver al menú anterior'}
+            
+            menu(opciones)
+
+            return '-1'
 
 def elegir_nombre_estacion(nombre_centro:str) -> str:
 
@@ -434,8 +508,7 @@ def mostrar_medidas(id_estacion: str) -> None:
 
     limpiar_pantalla()
     print()
-    print(f'REGISTROS CENTRO {id_estacion}')
-
+    print(f'REGISTROS CENTRO CON ID: {id_estacion}')
 
     # Obtener nombres y unidades desde el primer elemento de la lista de registros
     nombres_unidades=[]
@@ -454,5 +527,38 @@ def mostrar_medidas(id_estacion: str) -> None:
     imprimir_tabla(registros_estacion,[9,20,12,12,17,12],encabezado)
 
     print('Se ha impreso la informacion disponible para este centro!')
+    opciones = {'1': 'Volver al menú anterior'}
+    menu(opciones)
+
+def agregar_registro(id_estacion:str) -> None:
+    
+    info = cargar_info(bd_file)
+
+    limpiar_pantalla()
+
+    registros = info['registros']
+    nombres_unidades=[]
+    linea = split(registros[0],';')
+    for i in range(4):
+        nombre, infos = split(linea[i],'[')
+
+        rango,unidad = split(infos[:-1],',')
+
+        rango_inf, rango_sup = split(rango,':')
+
+        nombres_unidades.append(ingresar_dato(float(rango_inf),float(rango_sup),nombre))
+
+    info['registros'].append({
+        'fecha': obtener_tiempo_actual(),
+        'centro_id': id_estacion,
+        'datos': nombres_unidades
+    })
+
+    guardar_info(bd_file,info)
+    
+    limpiar_pantalla()
+
+    print('Se ha guardado en nuevo registro para el centro!')
+
     opciones = {'1': 'Volver al menú anterior'}
     menu(opciones)
