@@ -34,6 +34,21 @@ def menu(opciones: dict) -> str:
             print("\nOpción no válida, intenta nuevamente")
 
 def obtener_tiempo_actual():
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
+
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''    
+    
     # Obtener la fecha y hora actual
     tiempo_actual = datetime.now()
 
@@ -44,10 +59,39 @@ def obtener_tiempo_actual():
     return tiempo_formateado
 
 def convertir_fecha(fecha_str: str) -> datetime:
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
+
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''   
     # Convierte una cadena de fecha a un objeto datetime
     return datetime.strptime(fecha_str, '%Y-%m-%d %H:%M:%S')
 
 def ingresar_documento():
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
+
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''
+
     documento = input('ingrese el numero de documento: ')
     
     usuarios = cargar_info(bd_file)['usuarios']
@@ -57,6 +101,21 @@ def ingresar_documento():
     return documento
 
 def ingresar_nombre():
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
+
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''
+
     nombre = input('ingrese el nombre: ')
     while validar_nombre(nombre) == False:
         print('Nombre inválido, verifique que solo contenga letras y espacios sencillos.')
@@ -64,7 +123,21 @@ def ingresar_nombre():
     return nombre
 
 def ingresar_clave():
-    
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
+
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''
+
     clave = ''
     clave2 = ''
     while clave != clave2 or len(clave) < 4:
@@ -75,6 +148,21 @@ def ingresar_clave():
     return clave
 
 def ingresar_rol():
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
+
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''    
+    
     roles = ['Administrador','Operador']
     rol = None
     while rol not in roles:
@@ -126,6 +214,21 @@ def id_digit(valor: str) -> bool:
 
 
 def ingresar_dato(ini: float, fin: float, name: str = '') -> float:
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
+
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''    
+    
     flag = True
     while flag:
         valor = input(f'Ingrese el valor de {name}, recuerde ingresar valores entre {ini} y {fin} o ND si no está disponible: ')
@@ -145,7 +248,21 @@ def ingresar_dato(ini: float, fin: float, name: str = '') -> float:
 
 
 def login():
-    
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
+
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''
+
     info = cargar_info(bd_file)
 
     usuarios = info['usuarios']
@@ -173,7 +290,20 @@ def login():
 """
 
 def elegir_municipio() -> str:
-    
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
+
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    ''' 
     info = cargar_info(bd_file)
 
     opciones = {str(i+1):info['ciudades'][i] for i in range(len(info['ciudades']))}
@@ -181,6 +311,20 @@ def elegir_municipio() -> str:
     return info['ciudades'][int(menu(opciones))-1]
 
 def elegir_estacion(municipio:str = None) -> str:
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
+
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''
 
     if municipio is None:
         info = cargar_info(bd_file)
@@ -212,7 +356,20 @@ def elegir_estacion(municipio:str = None) -> str:
             return '-1'
 
 def elegir_nombre_estacion(nombre_centro:str) -> str:
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
 
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''
     valor = True
 
     while valor:
@@ -225,7 +382,20 @@ def elegir_nombre_estacion(nombre_centro:str) -> str:
             return nombre_centro
 
 def crear_estacion():
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
 
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''
     limpiar_pantalla()
     print('Creemos una nueva estacion!')
     
@@ -256,6 +426,20 @@ def crear_estacion():
     menu(opciones)
 
 def actualizar_estacion():
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
+
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''    
     limpiar_pantalla()
     print('Actualicemos una estacion')
     print()
@@ -289,12 +473,40 @@ def actualizar_estacion():
     menu(opciones)
 
 def tiene_registros_asociados(centro_id, registros):
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
+
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''    
     for registro in registros[1:]:
         if 'centro_id' in registro and registro['centro_id'] == centro_id:
             return True
     return False
 
 def elegir_estacion_eliminar():
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
+
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''    
     info = cargar_info(bd_file)
     
     centros = info['centros']
@@ -316,6 +528,20 @@ def elegir_estacion_eliminar():
     return menu(opciones)
 
 def eliminar_estacion():
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
+
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''    
     limpiar_pantalla()
     print('Eliminemos una estación')
     print()
@@ -352,7 +578,20 @@ def eliminar_estacion():
 """
 
 def elegir_usuario_actualizar(usr:str) -> int:
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
 
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''
     info = cargar_info(bd_file)
 
     usuarios = info['usuarios']
@@ -368,6 +607,20 @@ def elegir_usuario_actualizar(usr:str) -> int:
     return int(menu(opciones))-1
 
 def elegir_nombre_usuario(nombre:str):
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
+
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    ''' 
     limpiar_pantalla()
     print(f'Se te solicitara un nuevo nombre, dale enter si deseas que se mantenga el nombre actual ({nombre})')
     nombre_nuevo = ingresar_nombre()
@@ -375,7 +628,20 @@ def elegir_nombre_usuario(nombre:str):
     return nombre_nuevo if nombre_nuevo != '' else nombre
 
 def actualizar_usuario(usr:str) -> None:
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
 
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''
     limpiar_pantalla()
 
     indice_usuario = elegir_usuario_actualizar(usr)
@@ -414,6 +680,20 @@ def actualizar_usuario(usr:str) -> None:
     menu(opciones)
 
 def elegir_usuario_eliminar(usr) -> int:
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
+
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''    
     info = cargar_info(bd_file)
 
     usuarios = info['usuarios']
@@ -434,6 +714,20 @@ def elegir_usuario_eliminar(usr) -> int:
     return int(menu(opciones))-1
 
 def eliminar_usuario(usr):
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
+
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''    
     limpiar_pantalla()
     print('Eliminemos un usuario')
     print()
@@ -464,6 +758,20 @@ def eliminar_usuario(usr):
     menu(opciones)
 
 def crear_usuario(usr):
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
+
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''    
     limpiar_pantalla()
     print('Creemos un usuario')
     
@@ -500,6 +808,20 @@ def crear_usuario(usr):
 """
 
 def registros_compartidos():
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
+
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''    
     info1 = cargar_info(bd_file)
     info2 = cargar_info(bd_file2)
 
@@ -547,6 +869,20 @@ def registros_compartidos():
         menu(opciones)
 
 def registros_unidos():
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
+
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''    
     info1 = cargar_info(bd_file)
     info2 = cargar_info(bd_file2)
 
@@ -601,6 +937,20 @@ def registros_unidos():
 """
 
 def mostrar_medidas(id_estacion: str) -> None:
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
+
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''    
     info = cargar_info(bd_file)
 
     registros = info['registros']
@@ -642,7 +992,20 @@ def mostrar_medidas(id_estacion: str) -> None:
     menu(opciones)
 
 def agregar_registro(id_estacion:str) -> None:
-    
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
+
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''    
     info = cargar_info(bd_file)
 
     limpiar_pantalla()
@@ -683,7 +1046,20 @@ def agregar_registro(id_estacion:str) -> None:
 """
 
 def elegir_variables() -> list:
-    
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
+
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''    
     info = cargar_info(bd_file)
 
     limpiar_pantalla()
@@ -709,7 +1085,20 @@ def elegir_variables() -> list:
     return variables_elegidas
 
 def elegir_ciudades() -> list:
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
 
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''
     info = cargar_info(bd_file)
     
     ciudades = info['ciudades']
@@ -728,7 +1117,20 @@ def elegir_ciudades() -> list:
     return ciudades_elegidas
 
 def mostrar_estadisticas(dias:int, variables:list ,ciudades:list):
-    
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
+
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''    
     info = cargar_info(bd_file)
 
     registros = info['registros']
@@ -804,6 +1206,20 @@ def mostrar_estadisticas(dias:int, variables:list ,ciudades:list):
         menu(opciones)
 
 def exportar_estadisticas(dias: int, variables: list, ciudades: list, archivo_salida: str):
+    '''
+    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
+
+    Parameters
+    ----------
+    opciones : dict
+        Diccionioario que contiene como key las opciones posibles y de value las descripciones de estas opciones.
+
+    Returns
+    -------
+    str
+        string con la opción selccionada.
+
+    '''
     info = cargar_info(bd_file)
 
     registros = info['registros']

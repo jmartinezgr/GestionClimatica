@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Apr 26 11:47:34 2023
 
-@author: gita2
-"""
 from utilidades_documentos import *
 from utilidades_usuarios import *
 
@@ -503,7 +499,7 @@ def depurar_registro():
                 limpiar_pantalla()
             elif op == '3':
                 registros_unidos()
-                limpiar_pantalla()
+                limpiar_pantalla()  
             else:
                 limpiar_pantalla()
                 print('Error, has ingresado una opcion no valida, intentalo de nuevo')
