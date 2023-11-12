@@ -505,16 +505,21 @@ def registros_compartidos():
 
     if info2 is not None:
         registros1 = info1['registros'][1:]
-        registros2 = info1['registros'][1:]
+        registros2 = info2['registros'][1:]
 
-        registros_compartidos = [
+        registros_compartidos=[
             [registro['centro_id'],registro['fecha']]+[dato for dato in registro['datos']]
             for registro in registros1+registros2 
             if registro in registros1 and registro in registros2
         ]
 
+        registros_unicos = []
+        for registro in registros_compartidos:
+            if registro not in registros_unicos:
+                registros_unicos.append(registro)
+
         print()
-        print('REGISTROS COPARTIDOS')
+        print('REGISTROS COMPARTIDOS')
 
         nombres_unidades=[]
         linea = split(info1['registros'][0],';')
@@ -529,9 +534,56 @@ def registros_compartidos():
         encabezado = ['Centro ID','Fecha']+nombres_unidades
 
         # Imprimir la tabla usando la función imprimir_tabla
-        imprimir_tabla(registros_compartidos,[9,20,12,12,17,12],encabezado)
+        imprimir_tabla(registros_unicos,[9,20,12,12,17,12],encabezado)
+
 
         print('Se imprimieron los registros duplicados!')
+        opciones = {'1': 'Volver al menú anterior'}
+        menu(opciones)
+
+    else:
+        print('NO EXISTE EL ARCHIVO DUPLICADO!')
+        opciones = {'1': 'Volver al menú anterior'}
+        menu(opciones)
+
+def registros_unidos():
+    info1 = cargar_info(bd_file)
+    info2 = cargar_info(bd_file2)
+
+    if info2 is not None:
+        registros1 = info1['registros'][1:]
+        registros2 = info2['registros'][1:]
+
+        registros_unidos = [
+            [registro['centro_id'], registro['fecha']] + [dato for dato in registro['datos']]
+            for registro in registros1 + registros2
+        ]
+
+        # Eliminar registros duplicados
+        registros_unicos = []
+        for registro in registros_unidos:
+            if registro not in registros_unicos:
+                registros_unicos.append(registro)
+
+        print()
+        print('REGISTROS UNIDOS')
+
+        nombres_unidades = []
+        linea = split(info1['registros'][0], ';')
+        for i in range(4):
+            nombre, info = split(linea[i], '[')
+
+            rango, unidad = split(info[:-1], ',')
+
+            nombres_unidades.append(f'{nombre} : {unidad}')
+
+        # Construir la tabla
+        encabezado = ['Centro ID', 'Fecha'] + nombres_unidades
+
+        # Imprimir la tabla usando la función imprimir_tabla
+        imprimir_tabla(registros_unicos, [9, 20, 12, 12, 17, 12], encabezado)
+
+        print('Se imprimieron todos los registros unidos!')
         opciones = {'1': 'Volver al menú anterior'}
         menu(opciones)
 

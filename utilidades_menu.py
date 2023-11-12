@@ -502,7 +502,7 @@ def depurar_registro():
                 registros_compartidos()
                 limpiar_pantalla()
             elif op == '3':
-                actualizar_usuario()
+                registros_unidos()
                 limpiar_pantalla()
             else:
                 limpiar_pantalla()
