@@ -180,11 +180,6 @@ def limpiar_pantalla() -> None:
     Sinopsis
     --------   
     Funcion que limpia la pantalla
-
-    Returns
-    -------
-    None.
-
     '''
     import os
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -437,9 +432,9 @@ def imprimir_tabla(tabla: list, ancho , encabezado: list =None, retornar: bool =
         Lista que representa la tabla. Cada elemento es una fila con los datos de la tabla
     ancho: list 
         Lista con el tamaño deseado para cada columna. Si se especifica un entero, todas las columnas quedan de ese tamaño
-    encabezado: list
+    encabezado: list, optional
         Lista con el encabezado de la tabla 
-    retornar : bool
+    retornar : bool, optional
         Variable que indica si se debe imprimir la tabla directamente o retornarla como string
     
     Returns:
