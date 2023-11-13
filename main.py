@@ -21,11 +21,15 @@ while op != '3':
         elif op == '1':
             print()
             usr = login()
+            print()
             if usr is not None:
                 limpiar_pantalla()
+                print()
                 if usr[1] == 'Operador':
+                    print()
                     menu_operador(usr[0])
                 else:
+                    print()
                     menu_administrador(usr[0])
         else:
             limpiar_pantalla()

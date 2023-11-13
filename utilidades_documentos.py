@@ -16,6 +16,10 @@ import os
 
 def split(text: str, sep = ' ') -> list:
     '''
+    Sinopsis
+    --------
+    Esta funcion divide un string con base en un caracter, y las partes resultantes las almacena en una lista 
+
     Parametros
     ----------
     text : str
@@ -54,6 +58,8 @@ def split(text: str, sep = ' ') -> list:
 
 def unir(items: list, sep: str) -> str:
     '''
+    Sinopsis
+    --------
     Combina los elementos de una lista en una cadena usando el separador dado.
 
     Parameters
@@ -76,6 +82,8 @@ def unir(items: list, sep: str) -> str:
 
 def is_digit(caracter: str) -> bool:
     '''
+    Sinopsis
+    --------
     Verifica si el carácter dado es un dígito.
 
     Parameters
@@ -85,7 +93,7 @@ def is_digit(caracter: str) -> bool:
 
     Returns
     -------
-    bool
+    Boolean
         True si es un dígito, False de lo contrario.
 
     '''
@@ -106,32 +114,56 @@ def is_digit(caracter: str) -> bool:
 
 def is_alpha(char: str) -> bool:
     '''
+    Sinopsis
+    --------
     Verifica si el carácter dado es una letra (mayúscula o minúscula).
     
-    Argumentos:
-        char: Carácter a verificar
-    return -> Boolean (True or False) si es una letra o no
+    
+    Parameters
+    ----------
+    char: str
+        Carácter a verificar
+    
+    Returns
+    -------
+    Boolean 
+        (True or False) si es una letra o no
     '''
     letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
     return char in letras
 
 def is_space(char: str) -> bool:
     '''
+    Sinopsis
+    --------
     Verifica si el carácter dado es un espacio.
     
-    Argumentos:
-        char: Carácter a verificar
-    return -> Boolean (True or False) si es un espacio o no
+    Parameters
+    ----------
+    char: str 
+        Carácter a verificar
+    
+    Returns
+    -------
+    Boolean
+        (True or False) si es un espacio o no
     '''
     return char == ' '
 
-def mi_max(lista) -> int:
+def mi_max(lista: list) -> int:
     '''
+    Sinopsis
+    --------    
     Encuentra el numero mayor de una lista numerica
     
-    Argumentos:
-        list: Lista a verificar
-    return -> Integer: Retorna el numero maximo o None si la lista estaba vacia
+    Parameters
+    ----------
+    lista: list
+        Lista a verificar
+    Returns
+    -------
+    Integer 
+        Retorna el numero maximo o None si la lista estaba vacia
     '''
     
     if not lista:
@@ -143,8 +175,10 @@ def mi_max(lista) -> int:
             maximo = elemento
     return maximo
 
-def limpiar_pantalla():
+def limpiar_pantalla() -> None:
     '''
+    Sinopsis
+    --------   
     Funcion que limpia la pantalla
 
     Returns
@@ -282,6 +316,8 @@ def cargar_info(file_path: str) -> dict:
 
 def guardar_info(file_path: str, info: dict) -> None:
     '''
+    Sinopsis
+    --------
     Función que actualiza los datos de un archivo txt
 
     Parameters
@@ -318,11 +354,18 @@ def guardar_info(file_path: str, info: dict) -> None:
 
 def validar_nombre(nombre: str) -> bool:
     '''
+    Sinopsis
+    --------
     Valida nombre válido (solo letras y espacios)
     
-    Argumentos:
-        nombre: String a validar
-    return -> Boolean (True or False) si es válido o no
+    Parameters
+    ----------
+    nombre: str 
+        String a validar
+
+    Returns
+    ------- 
+        Boolean (True or False) si es válido o no
     '''
     return all(is_alpha(char) or is_space(char) for char in nombre)
 
@@ -330,10 +373,17 @@ def validar_documento(documento: str, usuarios: list) -> bool:
     '''
     Valida un número de documento. Debe contener 10 caracteres, todos numéricos.
     
-    Argumentos:
-        documento: string a validar
-        usuarios: lista de usuarios para verificar duplicados
-    return -> Boolean (True or False) si es válido o no
+    Parameters
+    ----------
+    documento: str 
+        Numero de docuemtno en formato string a validar
+    usuarios: list 
+        lista de usuarios para verificar duplicados
+    
+    Returns:
+    ------- 
+    Boolean 
+        (True or False) si es válido o no
     '''
     # Verificar longitud y que todos los caracteres sean numéricos
     if len(documento) == 10 and all(is_digit(char) for char in documento):
@@ -348,11 +398,18 @@ def validar_documento(documento: str, usuarios: list) -> bool:
 
 def validar_fecha(fecha: str) -> bool:
     '''
+    Sinopsis
+    --------    
     Valida que un string corresponda a una fecha válida (con formato yyyy-mm-dd).
     
-    Argumentos:
-        fecha -> string a validar
-    return -> Boolean (True or False) si es válido o no
+    Parameters
+    ----------
+    fecha: str 
+        Fecha en formato string para validar
+    Returns:
+    -------           
+    Boolean 
+        (True or False) si es válido o no
     '''
     try:
         # Intentar crear un objeto datetime desde la cadena de fecha
@@ -368,16 +425,27 @@ def validar_fecha(fecha: str) -> bool:
 
 """
 
-def imprimir_tabla(tabla, ancho, encabezado=None, retornar=False):  
+def imprimir_tabla(tabla: list, ancho , encabezado: list =None, retornar: bool =False) -> str:  
     ''' 
-    Retorna una tabla con los datos pasados, ajustado a los tamaños deseados.
+    Sinopsis
+    --------      
+    Retorna o imprime una tabla con los datos pasados, ajustado a los tamaños deseados.
     
-    Argumentos:
-        tabla: Lista que representa la tabla. Cada elemento es una fila
-        ancho: Lista con el tamaño deseado para cada columna. Si se especifica
-            un entero, todas las columnas quedan de ese tamaño
-        encabezado: Lista con el encabezado de la tabla
-        retornar: Booleano que indica si se retorna el valor o se imprime
+    Parameters
+    ----------
+    tabla: list
+        Lista que representa la tabla. Cada elemento es una fila con los datos de la tabla
+    ancho: list 
+        Lista con el tamaño deseado para cada columna. Si se especifica un entero, todas las columnas quedan de ese tamaño
+    encabezado: list
+        Lista con el encabezado de la tabla 
+    retornar : bool
+        Variable que indica si se debe imprimir la tabla directamente o retornarla como string
+    
+    Returns:
+    -------  
+    str:
+        Si la variable retornar es Truje regresa la tabla como string y sino regresa None ya que la imprime directamente
     '''
 
     resultado = ''

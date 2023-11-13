@@ -69,22 +69,23 @@ def menu_invitado():
         op = menu(opciones)
         if op != '1':
             if op == '2':   
+                print()
                 menu_invitado_estadisticas()
                 limpiar_pantalla()
             else:
                 limpiar_pantalla()
+                print()
                 print('Error, has ingresado una opcion no valida, intentalo de nuevo')
                 print()
     limpiar_pantalla()
     
 def menu_invitado_estadisticas():
     '''
-    Función que muestra el menú cuando un usuario se registra
+    Función que muestra el menú para elegir el rango temporal en el que el usuario invitado quiere visualizar las estadisticas
 
     Parameters
     ----------
-    usr : TYPE
-        DESCRIPTION.
+    None
 
     Returns
     -------
@@ -105,9 +106,12 @@ def menu_invitado_estadisticas():
         if op != '1':
             if op == '2':
                 dias = 7
+                print()
                 limpiar_pantalla()
                 variables = elegir_variables()
+                print()
                 limpiar_pantalla()
+                print()
                 ciudades = elegir_ciudades()
                 limpiar_pantalla()
 
@@ -152,6 +156,7 @@ def menu_invitado_estadisticas():
                     limpiar_pantalla()
                     print('No puedes hacer analisis sin variables y/0 sin ciudades')
             else:
+                print()
                 limpiar_pantalla()
                 print('Error, has ingresado una opcion no valida, intentalo de nuevo')
                 print()
@@ -184,14 +189,16 @@ def menu_analisis_visitante(dias:int, variables:list ,ciudades:list):
         if op != '1':
             if op == '2':
                 mostrar_estadisticas(dias,variables,ciudades)
+                print()
                 limpiar_pantalla()
             elif op == '3':
 
                 nombre_archivo = input('Ingresa un nombre para el archivo con tus Solicitudes:')
-
+                print()
                 exportar_estadisticas(dias,variables,ciudades,f'{nombre_archivo}.txt')  
                 limpiar_pantalla()
             else:
+                print()
                 limpiar_pantalla()
                 print('Error, has ingresado una opcion no valida, intentalo de nuevo')
                 print()
@@ -223,9 +230,11 @@ def menu_operador(usr:str):
         op = menu(opciones)
         if op != '1':
             if op == '2':
+                print()
                 menu_operador_ciudad()
                 limpiar_pantalla()
             else:
+                print()
                 limpiar_pantalla()
                 print('Error, has ingresado una opcion no valida, intentalo de nuevo')
                 print()
@@ -257,10 +266,13 @@ def menu_operador_ciudad():
         op = menu(opciones)
         if op != '1':
             if op == '2':
+                print()
                 limpiar_pantalla()
+                print()
                 print('Elige el municipio:')
                 municipio = elegir_municipio()
                 limpiar_pantalla()
+                print()
                 menu_operador_estaciones(municipio)
                 limpiar_pantalla()
             else:
@@ -299,9 +311,11 @@ def menu_operador_estaciones(municipio:str):
             if op == '2':
                 id_estacion = elegir_estacion(municipio)
                 if id_estacion != '-1':
+                    print()
                     menu_operador_centros(id_estacion)
                     limpiar_pantalla()
             else:
+                print()
                 limpiar_pantalla()
                 print('Error, has ingresado una opcion no valida, intentalo de nuevo')
                 print()
@@ -335,12 +349,15 @@ def menu_operador_centros(id_estacion: str):
         op = menu(opciones)
         if op != '1':
             if op == '2':
+                print()
                 mostrar_medidas(id_estacion)
                 limpiar_pantalla()
             elif op == '3':
+                print()
                 agregar_registro(id_estacion)
                 limpiar_pantalla()
             else:
+                print()
                 limpiar_pantalla()
                 print('Error, has ingresado una opcion no valida, intentalo de nuevo')
                 print()
@@ -375,14 +392,18 @@ def menu_administrador(usr:str) -> None:
         op = menu(opciones)
         if op != '1':
             if op == '2':
+                print()
                 menu_estaciones()
                 limpiar_pantalla()
             elif op == '3':
+                print()
                 menu_manipulacion_usuarios(usr)
                 limpiar_pantalla()
             elif op == '4':
+                print()
                 depurar_registro()
             else:
+                print()
                 limpiar_pantalla()
                 print('Error, has ingresado una opcion no valida, intentalo de nuevo')
                 print()
@@ -415,15 +436,19 @@ def menu_estaciones():
         op = menu(opciones)
         if op != '1':
             if op == '2':
+                print()
                 crear_estacion()
                 limpiar_pantalla()
             elif op == '3':
+                print()
                 actualizar_estacion()
                 limpiar_pantalla()
             elif op == '4':
+                print()
                 eliminar_estacion()
                 limpiar_pantalla()
             else:
+                print()
                 limpiar_pantalla()
                 print('Error, has ingresado una opcion no valida, intentalo de nuevo')
                 print()
@@ -456,15 +481,19 @@ def menu_manipulacion_usuarios(usr:str):
         op = menu(opciones)
         if op != '1':
             if op == '2':
+                print()
                 crear_usuario(usr)
                 limpiar_pantalla()
             elif op == '3':
+                print()
                 actualizar_usuario(usr)
                 limpiar_pantalla()
             elif op == '4':
+                print()
                 eliminar_usuario(usr)
                 limpiar_pantalla()
             else:
+                print()
                 limpiar_pantalla()
                 print('Error, has ingresado una opcion no valida, intentalo de nuevo')
                 print()
@@ -496,12 +525,15 @@ def depurar_registro():
         op = menu(opciones)
         if op != '1':
             if op == '2':
+                print()
                 registros_compartidos()
                 limpiar_pantalla()
             elif op == '3':
+                print()
                 registros_unidos()
                 limpiar_pantalla()  
             else:
+                print()
                 limpiar_pantalla()
                 print('Error, has ingresado una opcion no valida, intentalo de nuevo')
                 print()
