@@ -4,10 +4,11 @@
 bd_file = 'registros.txt'
 bd_file2 = 'registrosv2.txt' 
 
-
+from datetime import datetime
 from utilidades_documentos import *
 
-## FUNCIONALIDADES GENERALES
+
+## FUNCIONALIDADES GENERALES|
 
 def menu(opciones: dict) -> str:
     '''
@@ -452,7 +453,7 @@ def actualizar_estacion():
 
     nuevo_nombre = elegir_nombre_estacion(info['centros'][id_estacion]['nombre'])
     limpiar_pantalla()
-    print(f'Elige la nueva ciudad, o ingresa el numero de la ciudad en la que esta actualmente ({info['centros'][id_estacion]['ciudad']}) para mantener el estado actual: ')
+    print(f"Elige la nueva ciudad, o ingresa el numero de la ciudad en la que esta actualmente ({info['centros'][id_estacion]['ciudad']}) para mantener el estado actual: ")
     print()
     nueva_ciudad = elegir_municipio()
 
@@ -652,14 +653,14 @@ def actualizar_usuario(usr:str) -> None:
 
     nuevo_nombre = elegir_nombre_usuario(usuario['nombre'])
     limpiar_pantalla()
-    opciones = {'1':f'Mantener la contraseña ({usuario['clave']}):',
-                '2':f'Cambiar la contrasña actual'}
+    opciones = {'1':f"Mantener la contraseña ({usuario['clave']}):",
+                '2':'Cambiar la contrasña actual'}
 
     nueva_constraseña = usuario['clave'] if menu(opciones) == '1' else ingresar_clave()
     
     limpiar_pantalla()
-    opciones = {'1':f'Mantener el rol ({usuario['rol']}):',
-                '2':f'Cambiar el rol actual'}
+    opciones = {'1':f"Mantener el rol ({usuario['rol']}):",
+                '2':'Cambiar el rol actual'}
 
     nuevo_rol = usuario['rol'] if menu(opciones) == '1' else ingresar_rol()
 

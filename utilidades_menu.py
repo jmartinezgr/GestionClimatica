@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from utilidades_documentos import *
-from utilidades_usuarios import *
+
+
+from utilidades_usuarios import * 
 
 def menu(opciones: dict) -> str:
     '''
@@ -67,7 +68,7 @@ def menu_invitado():
         print('Menu Usuario Invitado')
         op = menu(opciones)
         if op != '1':
-            if op == '2':
+            if op == '2':   
                 menu_invitado_estadisticas()
                 limpiar_pantalla()
             else:
@@ -211,7 +212,7 @@ def menu_operador(usr:str):
     None.
 
     '''
-    print(f'Felicidades, has ingresado!')
+    print("Felicidades, has ingresado!")
     opciones = {'1':'Menú anterior',
                 '2':'Seleccionar Ciudad',
                 }    
@@ -361,7 +362,7 @@ def menu_administrador(usr:str) -> None:
     None.
 
     '''
-    print(f'Felicidades, has ingresado!')
+    print("Felicidades, has ingresado!")
     opciones = {'1':'Menú anterior',
                 '2':'Gestionar Estaciones',
                 '3':'Gestionar Usuarios',
@@ -410,7 +411,7 @@ def menu_estaciones():
 
     while op != '1':
         limpiar_pantalla()
-        print(f'Menu estaciones')
+        print("Menu estaciones")
         op = menu(opciones)
         if op != '1':
             if op == '2':
@@ -451,7 +452,7 @@ def menu_manipulacion_usuarios(usr:str):
 
     while op != '1':
         limpiar_pantalla()
-        print(f'Menu Usuarios')
+        print("Menu Usuarios")
         op = menu(opciones)
         if op != '1':
             if op == '2':
@@ -491,7 +492,7 @@ def depurar_registro():
 
     while op != '1':
         limpiar_pantalla()
-        print(f'Menu Usuarios')
+        print("Menu Usuarios")
         op = menu(opciones)
         if op != '1':
             if op == '2':

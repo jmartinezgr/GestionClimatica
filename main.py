@@ -5,9 +5,9 @@ Created on Wed Apr 26 11:59:27 2023
 @author: gita2
 """
 
-from utilidades_menu import *
-from utilidades_documentos import *
-from utilidades_usuarios import *
+from utilidades_menu import menu_invitado,menu_administrador,menu_principal,menu_operador
+from utilidades_documentos import limpiar_pantalla
+from utilidades_usuarios import login
 
 op = '-1'
 
