@@ -1,12 +1,30 @@
 # -*- coding: utf-8 -*-
-
-
-
 from utilidades_usuarios import * 
+
+'''
+    Sinopsis
+    --------
+    Verifica si un centro de monitoreo tiene registros asociados en la lista de registros proporcionada.
+
+    Parameters
+    ----------
+    centro_id : str
+        Identificador único del centro de monitoreo que se verificará.
+    registros : list
+        Lista de registros donde se buscará la asociación con el centro de monitoreo.
+
+    Returns
+    -------
+    bool
+        True si hay registros asociados al centro de monitoreo, False en caso contrario.
+
+''' 
 
 def menu(opciones: dict) -> str:
     '''
-    Función que muestra y retorna la opción seleccionada según un lsitado de opciones
+    Sinopsis
+    --------    
+    Función que muestra y retorna la opción seleccionada según un listado de opciones
 
     Parameters
     ----------
@@ -30,11 +48,13 @@ def menu(opciones: dict) -> str:
     
 def menu_principal() -> str:
     '''
+    Sinopsis
+    --------    
     Función que muestra el menú principal
 
     Returns
     -------
-    TYPE
+    str
         string con la opción seleccionada.
 
     '''
@@ -48,14 +68,11 @@ def menu_principal() -> str:
 
 #----------------------------------------------------------------------------------------------------------- 
 
-def menu_invitado():
+def menu_invitado() -> None:
     '''
+    Sinopsis
+    --------     
     Función que muestra el menú de invitado
-
-    Returns
-    -------
-    None.
-
     '''
     limpiar_pantalla()
     print('Felicidades, entraste como modo invitado!')
@@ -79,18 +96,11 @@ def menu_invitado():
                 print()
     limpiar_pantalla()
     
-def menu_invitado_estadisticas():
+def menu_invitado_estadisticas() -> None:
     '''
+    Sinopsis
+    --------    
     Función que muestra el menú para elegir el rango temporal en el que el usuario invitado quiere visualizar las estadisticas
-
-    Parameters
-    ----------
-    None
-
-    Returns
-    -------
-    None.
-
     '''    
     limpiar_pantalla()
     opciones = {'1':'Menú anterior',
@@ -162,19 +172,24 @@ def menu_invitado_estadisticas():
                 print()
     limpiar_pantalla()
 
-def menu_analisis_visitante(dias:int, variables:list ,ciudades:list):
+def menu_analisis_visitante(dias: int, variables: list ,ciudades: list) -> None:
     '''
-    Función que muestra el menú cuando un usuario se registra
+    Sinopsis
+    --------    
+    Función que muestra las opciones de analisis con las variables y ciudades elegidas paa el usuario visitante
 
     Parameters
     ----------
-    usr : TYPE
-        DESCRIPTION.
+    dias : itn
+        Cantidad de dias anteriores al actual sobre el que se hara el analisis
+    variables: list
+        Lista de variables sobre las que se hara el analisis
+    ciudades: list
+        Lista de ciudades sobre las que se hara el analisis
 
     Returns
     -------
     None.
-
     '''    
     limpiar_pantalla()
     opciones = {'1': 'Volver al menú anterior',
@@ -205,19 +220,20 @@ def menu_analisis_visitante(dias:int, variables:list ,ciudades:list):
     limpiar_pantalla()
 #-----------------------------------------------------------------------------------------------------------    
     
-def menu_operador(usr:str):
+def menu_operador(usr:str) -> None:
     '''
-    Función que muestra el menú cuando un usuario se registra
+    Sinopsis
+    --------       
+    Función que muestras las opciones que tiene un usuario operador luego de iniciar sesion
 
     Parameters
     ----------
-    usr : TYPE
-        DESCRIPTION.
+    usr : str
+        Cedula del usuario registrado
 
     Returns
     -------
     None.
-
     '''
     print("Felicidades, has ingresado!")
     opciones = {'1':'Menú anterior',
@@ -240,21 +256,12 @@ def menu_operador(usr:str):
                 print()
     limpiar_pantalla()
 
-def menu_operador_ciudad():
+def menu_operador_ciudad() -> None:
     '''
-    Función que muestra el menú cuando un usuario se registra
-
-    Parameters
-    ----------
-    usr : TYPE
-        DESCRIPTION.
-
-    Returns
-    -------
-    None.
-
-    '''    
-    
+    Sinopsis
+    --------       
+    Función que muestras las opciones para que el usuario seleccione la ciudad de donde proviene los datos con los que va a inteactuar.
+    '''
     opciones = {'1':'Menú anterior',
                 '2':'Elegir Ciudad',
                 } 
@@ -281,21 +288,21 @@ def menu_operador_ciudad():
                 print()
     limpiar_pantalla()
 
-def menu_operador_estaciones(municipio:str):
+def menu_operador_estaciones(municipio: str) -> None:
     '''
-    Función que muestra el menú cuando un usuario se registra
+    Sinopsis
+    --------       
+    Función que muestras las opciones que tiene un usuario operador para elegir el centro con el cual va a interactuar
 
     Parameters
     ----------
-    usr : TYPE
-        DESCRIPTION.
+    municipio : str
+        Nombre de la ciudad elegida
 
     Returns
     -------
     None.
-
-    '''    
-    
+    '''  
     opciones = {'1':'Menú anterior',
                 '2':'Elegir Centro',
                 } 
@@ -321,21 +328,21 @@ def menu_operador_estaciones(municipio:str):
                 print()
     limpiar_pantalla()
 
-def menu_operador_centros(id_estacion: str):
+def menu_operador_centros(id_estacion: str) -> None:
     '''
-    Función que muestra el menú cuando un usuario se registra
+    Sinopsis
+    --------       
+    Función que muestras las opciones que tiene un usuario operador para interactuar con los datos de una estacion
 
     Parameters
     ----------
-    usr : TYPE
-        DESCRIPTION.
+    id_estacion : str
+        Identificador unico de la estacion elegida por el usuario
 
     Returns
     -------
     None.
-
-    '''    
-    
+    ''' 
     limpiar_pantalla()
 
     opciones = {'1':'Menú anterior',
@@ -367,18 +374,20 @@ def menu_operador_centros(id_estacion: str):
 
 def menu_administrador(usr:str) -> None:
     '''
-    Función que muestra el menú cuando un usuario se registra
+    Sinopsis
+    --------       
+    Función que muestras las opciones que tiene un usuario administrador luego de iniciar sesión
 
     Parameters
     ----------
-    usr : TYPE
-        DESCRIPTION.
+    usr : str
+        Cedula del usuario registrado
 
     Returns
     -------
     None.
+    ''' 
 
-    '''
     print("Felicidades, has ingresado!")
     opciones = {'1':'Menú anterior',
                 '2':'Gestionar Estaciones',
@@ -409,20 +418,13 @@ def menu_administrador(usr:str) -> None:
                 print()
     limpiar_pantalla()
 
-def menu_estaciones():
+def menu_estaciones() -> None:
     '''
-    Función que muestra el menú cuando un usuario se registra
+    Sinopsis
+    --------       
+    Función que muestras las opciones que tiene un usuario administrador para interactuar con las estaciones
+    ''' 
 
-    Parameters
-    ----------
-    usr : TYPE
-        DESCRIPTION.
-
-    Returns
-    -------
-    None.
-
-    '''
     opciones = {'1':'Menú anterior',
                 '2':'Crear Estacion',
                 '3':'Editar Estacion',
@@ -454,20 +456,21 @@ def menu_estaciones():
                 print()
     limpiar_pantalla()
 
-def menu_manipulacion_usuarios(usr:str):
+def menu_manipulacion_usuarios(usr: str) -> None:
     '''
-    Función que muestra el menú cuando un usuario se registra
+    Sinopsis
+    --------       
+    Función que muestras las opciones que tiene un usuario administrador para interactuar con los usuarios
 
     Parameters
     ----------
-    usr : TYPE
-        DESCRIPTION.
+    usr : str
+        Cedula del usuario registrado
 
     Returns
     -------
     None.
-
-    '''
+    ''' 
     opciones = {'1':'Menú anterior',
                 '2':'Crear Usuario',
                 '3':'Editar Usuario',
@@ -499,20 +502,12 @@ def menu_manipulacion_usuarios(usr:str):
                 print()
     limpiar_pantalla()
 
-def depurar_registro():
+def depurar_registro() -> None:
     '''
-    Función que muestra el menú cuando un usuario se registra
-
-    Parameters
-    ----------
-    usr : TYPE
-        DESCRIPTION.
-
-    Returns
-    -------
-    None.
-
-    '''
+    Sinopsis
+    --------       
+    Función que muestras las opciones que tiene un usuario administrador para interactuar con la depuracion de datos
+    ''' 
     opciones = {'1':'Menú anterior',
                 '2':'Registros compartidos',
                 '3':'Registos unidos'}
